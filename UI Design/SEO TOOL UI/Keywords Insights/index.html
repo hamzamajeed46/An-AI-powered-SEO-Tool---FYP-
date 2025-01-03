@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keyword Analysis - Input Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href = "../Home/index.html">Home</a></li>
+        <li><a href="#seo-health">SEO Health</a></li>
+        <li><a href="index.html">Keywords</a></li>
+        <li><a href="../Traffic Analysis/traffic_input.html">Traffic</a></li>
+        <li><a href="../Competitor Insights/index.html">Competitors</a></li>
+        <li><a href="../Backlink Analysis/index.html">Backlinks</a></li>
+        <li><a href="#reports">Reports</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="input-page">
+    <h1>Keyword Insights</h1>
+    <p>Enter your website or focus keyword to get detailed analysis and suggestions.</p>
+    <form action="results.html" method="GET">
+      <div class="form-group">
+        <label for="website">Website URL:</label>
+        <input type="url" id="website" name="website" placeholder="Enter your website URL" required>
+      </div>
+      <div class="form-group">
+        <label for="keyword">Focus Keyword:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Enter a focus keyword" required>
+      </div>
+      <button type="submit" class="btn">Analyze Keywords</button>
+    </form>
+    <a href="results.html" class="btn">Go to Results Page</a>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <a href="#about">About Us</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+      <a href="#contact">Contact Info</a>
+    </div>
+  </footer>
+</body>
+</html>

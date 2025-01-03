@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Analysis - Input Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="../Home/index.html">Home</a></li>
+      <li><a href="#seo-health">SEO Health</a></li>
+      <li><a href="../Keywords Insights/index.html">Keywords</a></li>
+      <li><a href="traffic_input.html" class="active">Traffic</a></li>
+      <li><a href="../Competitor Insights/index.html">Competitors</a></li>
+      <li><a href="../Backlink Analysis/index.html">Backlinks</a></li>
+      <li><a href="#">Reports</a></li>
+    </ul>
+  </nav>
+
+  <header class="header">
+    <h1>Traffic Analysis</h1>
+    <p>Analyze and predict your website's traffic trends effortlessly.</p>
+  </header>
+
+  <main>
+    <section class="input-section">
+      <h2>Enter Traffic Data</h2>
+      <form action="traffic_results.html" method="GET" class="traffic-form">
+        <label for="website">Website URL:</label>
+        <input type="url" id="website" name="website" placeholder="https://example.com" required>
+
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date" required>
+
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date" required>
+
+        <button type="submit" class="btn">Analyze Traffic</button>
+      </form>
+      <a href="traffic_results.html" class="btn">Go to Results Page</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 AI-Powered SEO Tool</p>
+  </footer>
+</body>
+</html>
