@@ -14,7 +14,7 @@ llm = ChatGroq(
 # Function to fetch metadata from a URL
 def fetch_metadata(url):
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=25)
         soup = BeautifulSoup(response.text, 'html.parser')
         
         # Extracting metadata
@@ -80,7 +80,7 @@ def generate_recommendations(client_metadata, competitor_metadata=None):
 # Function to analyze keyword usage in the website's body text
 def analyze_keywords(url, keyword):
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=15)
         soup = BeautifulSoup(response.text, 'html.parser')
         
         # Extract body text
