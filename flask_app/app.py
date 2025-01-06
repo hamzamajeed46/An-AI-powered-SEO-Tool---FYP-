@@ -19,7 +19,7 @@ def get_backlinks():
     querystring = {"url": input_web, "mode": "subdomains"}
 
     headers = {
-        "x-rapidapi-key": "85e7d0841amshe3a29d2229bb909p17f5ccjsnefcb401c476a",
+        "x-rapidapi-key": "625de418a4msh90a3327fa1424dfp1b4745jsn8eea7354cf51",
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 
@@ -28,15 +28,14 @@ def get_backlinks():
 
     if response.status_code == 200:
         data = response.json()  # Parse the JSON response
-        groq_api_key = "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"
-        recommendations = generate_seo_recommendations(data, groq_api_key)
+        recommendations = generate_seo_recommendations(data)
         return render_template('results.html', data=data, recommendations=recommendations)  # Pass data to template
     else:
         error_message = f"Failed to fetch data. Status Code: {response.status_code}"
         return render_template('results.html', error=error_message)
 
 @app.route('/get_backlinks', methods=['POST'])
-def generate_seo_recommendations(backlinks_data, groq_api_key):
+def generate_seo_recommendations(backlinks_data):
     """
     Analyzes the backlinks data and generates actionable SEO recommendations using ChatGroq LLM.
 
@@ -49,9 +48,10 @@ def generate_seo_recommendations(backlinks_data, groq_api_key):
     """
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
-        temperature=0,
-        groq_api_key=groq_api_key,
-        model_name="llama3-70b-8192"
+    temperature = 0,
+    groq_api_key = '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',
+    model_name = "llama-3.3-70b-versatile"
+
     )
 
     # Create the prompt

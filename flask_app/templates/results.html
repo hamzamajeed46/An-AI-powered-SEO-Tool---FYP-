@@ -39,6 +39,19 @@
                 <p>{{ data.refdomains }}</p>
               </div>
               <div class="metric-card">
+                <h2>dofollow Backlinks</h2>
+                <p>{{ data.dofollowBacklinks }}</p>
+              </div>
+            </div>
+        </section>
+        <section class="metrics-section">
+          <div class="metrics-container">
+              <div class="metric-card">
+                <h2>dofollow Referring Domains</h2>
+                <p>{{ data.dofollowRefdomains }}</p>
+              </div>
+
+              <div class="metric-card">
                 <h2>Domain Rating</h2>
                 <p>{{ data.domainRating }}/100</p>
               </div>
@@ -48,14 +61,37 @@
                 <p>{{ data.urlRating }}/100</p>
               </div>
 
+
             </div>
         </section>
         <h2>Backlinks List:</h2>
-        <ul>
-            {% for backlink in data.backlinksList %}
-                <li>{{ backlink }}</li>
-            {% endfor %}
-        </ul>
+        <table>
+          <thead>
+              <tr>
+                  <th>URL</th>
+                  <th>Title</th>
+                  <th>Domain Rating</th>
+                  <th>Target URL</th>
+                  <th>Anchor</th>
+                  <th>Summary</th>
+                  <th>Link</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for backlink in data.backlinksList %}
+              <tr>
+                  <td>{{ backlink.url }}</td>
+                  <td>{{ backlink.title }}</td>
+                  <td>{{ backlink.domain_rating }}</td>
+                  <td>{{ backlink.target_url }}</td>
+                  <td>{{ backlink.anchor }}</td>
+                  <td>{{ backlink.summary }}</td>
+                  <td><a href="{{ backlink.link }}" target="_blank">Visit</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      
     {% endif %}
 
     <section class="acquisition-section">

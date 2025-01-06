@@ -100,19 +100,34 @@ body {
     flex-wrap: wrap;
     gap: 1rem;
   }
+
+  
   
   .metric-card {
     background-color: #023e8a;
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
+    font-size: 18px;
     width: 200px;
   }
   
+  .metric-card1 {
+    background-color: #023e8a;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+  }
+
   .metric-card h2 {
     margin-bottom: 0.5rem;
   }
   
+  .metric-card1 h2 {
+    margin-bottom: 0.5rem;
+  }
+
   table {
     width: 90%;
     margin: 0 auto;
