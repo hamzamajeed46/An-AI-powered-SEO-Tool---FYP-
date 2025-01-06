@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlinks Results</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <ul>
+            <li><a href="../Home/index.html">Home</a></li>
+            <li><a href="#">SEO Health</a></li>
+            <li><a href="../Keywords Insights/index.html">Keywords</a></li>
+            <li><a href="../Traffic Analysis/traffic_input.html">Traffic</a></li>
+            <li><a href="../Competitor Insights/index.html">Competitors</a></li>
+            <li><a href="index.html">Backlinks</a></li>
+            <li><a href="#">Reports</a></li>
+          </ul>
+        </nav>
+    </header>
+
+    <h1>Backlinks Results</h1>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% else %}
+        <p><strong>URL:</strong> {{ data.url }}</p>
+        <section class="metrics-section">
+            <h1>Backlink Metrics</h1>
+            <div class="metrics-container">
+              <div class="metric-card">
+                <h2>Total Backlinks</h2>
+                <p>{{ data.backlinks }}</p>
+              </div>
+              <div class="metric-card">
+                <h2>Referring Domains</h2>
+                <p>{{ data.refdomains }}</p>
+              </div>
+              <div class="metric-card">
+                <h2>Domain Rating</h2>
+                <p>{{ data.domainRating }}/100</p>
+              </div>
+
+              <div class="metric-card">
+                <h2>URL Rating</h2>
+                <p>{{ data.urlRating }}/100</p>
+              </div>
+
+            </div>
+        </section>
+        <h2>Backlinks List:</h2>
+        <ul>
+            {% for backlink in data.backlinksList %}
+                <li>{{ backlink }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <section class="acquisition-section">
+        <h2>Acquisition Strategies</h2>
+            <p>{{ recommendations | safe }}</p>
+      </section>
+
+</body>
+</html>
