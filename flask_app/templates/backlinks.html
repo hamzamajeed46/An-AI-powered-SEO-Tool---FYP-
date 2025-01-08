@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backlink Analysis Input</title>
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <ul>
+            <li><a href="../Home/index.html">Home</a></li>
+            <li><a href="#">SEO Health</a></li>
+            <li><a href="../Keywords Insights/index.html">Keywords</a></li>
+            <li><a href="../Traffic Analysis/traffic_input.html">Traffic</a></li>
+            <li><a href="../Competitor Insights/index.html">Competitors</a></li>
+            <li><a href="index.html">Backlinks</a></li>
+            <li><a href="#">Reports</a></li>
+          </ul>
+        </nav>
+    </header>
+
+<main>
+<section class="input-section">
+    <h1>Enter Website to Check Backlinks</h1>
+    <form action="/get_backlinks" method="post">
+        <label for="website">Website:</label>
+        <input type="text" id="website" name="website" placeholder="e.g., example.com" required>
+        <button type="submit" class="btn">Submit</button>
+
+    </form>
+</section>
+</main>
+
+
+</body>
+</html>
