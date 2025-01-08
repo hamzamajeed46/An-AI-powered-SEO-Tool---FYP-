@@ -48,11 +48,40 @@ def generate_seo_recommendations(backlinks_data):
 
     # Create the prompt
     prompt = (
-        "Analyze the following website backlinks data and provide SEO insights "
-        "for the client to improve their performance/backlinks of website."
+        "Analyze the following website backlinks data and provide SEO recommendations "
+        "and aquisition strategies for the client to improve their performance/backlinks of website."
         "Backlinks Data: \n\n"
         f"{backlinks_data}"
         "\nProvide specific and actionable recommendations only for the client."
+    )
+
+    # Invoke the LLM and get the response
+    response = llm.invoke(prompt)
+    return markdown(response.content)  # Convert the response to Markdown
+
+def generate_seo_insights(backlinks_data):
+    """
+    Analyze the backlinks data and generate actionable SEO recommendations.
+
+    Args:
+        backlinks_data (dict): Backlinks data to analyze.
+
+    Returns:
+        str: SEO insights and recommendations.
+    """
+    # Initialize the ChatGroq LLM
+    llm = ChatGroq(
+        temperature=0,
+        groq_api_key='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',
+        model_name="llama-3.3-70b-versatile"
+    )
+
+    # Create the prompt
+    prompt = (
+        "Analyze the following website backlinks data and provide SEO insights "
+        "Backlinks Data: \n\n"
+        f"{backlinks_data}"
+        
     )
 
     # Invoke the LLM and get the response

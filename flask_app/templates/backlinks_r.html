@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlinks Results</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <ul>
+            <li><a href="{{url_for ('home')}}">Home</a></li>
+            <li><a href="#seo-health">SEO Health</a></li>
+            <li><a href="#keywords">Keywords</a></li>
+            <li><a href="#traffic">Traffic</a></li>
+            <li><a href="#competitors">Competitors</a></li>
+            <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
+            <li><a href="#">Reports</a></li>
+          </ul>
+        </nav>
+    </header>
+
+    <h1>Recommendations and Insights</h1>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% else %}
+        <section class="acquisition-section">
+            <h2>Recommendations and Acquisition Strategies</h2>
+                <p>{{ recommendations | safe }}</p>
+        </section>
+
+        <section class="acquisition-section">
+            <h2>Insights</h2>
+                <p>{{ insights | safe }}</p>
+        </section>
+    {% endif %}
+    
+</body>

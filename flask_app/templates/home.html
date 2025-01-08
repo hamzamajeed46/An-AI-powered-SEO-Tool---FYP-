@@ -21,43 +21,43 @@
 <div class="features-container">
   <div class="feature-item">
     <a href="#seo-health">
-      <img src="images/seo-health.png" alt="SEO Health">
+      <img src= "{{ url_for('static', filename='images/seo-health.png') }}" alt="SEO Health">
       <span>SEO Health Analysis</span>
     </a>
   </div>
   <div class="feature-item">
     <a href="#keywords">
-      <img src="images/keyword.png" alt="Keyword Recommendations">
+      <img src="{{ url_for('static', filename='images/keyword.png') }}" alt="Keyword Recommendations">
       <span>Keyword Recommendations</span>
     </a>
   </div>
   <div class="feature-item">
     <a href="#traffic">
-      <img src="images/traffic.png" alt="Traffic Analysis">
+      <img src="{{ url_for('static', filename='images/traffic.png') }}" alt="Traffic Analysis">
       <span>Traffic Analysis</span>
     </a>
   </div>
   <div class="feature-item">
     <a href="#competitor">
-      <img src="images/competitor.png" alt="Competitor Insights">
+      <img src="{{ url_for('static', filename='images/competitor.png') }}" alt="Competitor Insights">
       <span>Competitor Insights</span>
     </a>
   </div>
   <div class="feature-item">
     <a href="metadata.html">
-      <img src="images/metadata.png" alt="Backlinks Analysis">
+      <img src="{{ url_for('static', filename='images/metadata.png') }}" alt="Backlinks Analysis">
       <span>Metadata Analysis</span>
     </a>
   </div>
   <div class="feature-item">
-    <a href="backlinks.html">
-      <img src="images/backlink.png" alt="Backlinks Analysis">
+    <a href="{{ url_for('backlinks') }}">
+      <img src="{{ url_for('static', filename='images/backlink.png') }}" alt="Backlinks Analysis">
       <span>Backlinks Analysis</span>
     </a>
   </div>
   <div class="feature-item">
     <a href="#report">
-      <img src="images/reports.png" alt="Custom Reports">
+      <img src="{{ url_for('static', filename='images/reports.png') }}" alt="Custom Reports">
       <span>Custom Reports</span>
     </a>
   </div>
@@ -84,19 +84,7 @@
       </div>
     </section>
 
-    <section class="testimonials">
-      <h2>What Our Users Say</h2>
-      <div class="testimonial-carousel">
-        <div class="testimonial-item">
-          <p>"This tool transformed my SEO strategy completely!"</p>
-          <h3>- Shahroz Naveed</h3>
-        </div>
-        <div class="testimonial-item">
-          <p>"A must-have for anyone serious about SEO."</p>
-          <h3>- Junaid Rauf</h3>
-        </div>
-      </div>
-    </section>
+
   </main>
 
   <footer>

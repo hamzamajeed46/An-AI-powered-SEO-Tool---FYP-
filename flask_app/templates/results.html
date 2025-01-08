@@ -10,12 +10,12 @@
     <header>
         <nav class="navbar">
           <ul>
-            <li><a href="../Home/index.html">Home</a></li>
-            <li><a href="#">SEO Health</a></li>
-            <li><a href="../Keywords Insights/index.html">Keywords</a></li>
-            <li><a href="../Traffic Analysis/traffic_input.html">Traffic</a></li>
-            <li><a href="../Competitor Insights/index.html">Competitors</a></li>
-            <li><a href="index.html">Backlinks</a></li>
+            <li><a href="{{url_for ('home')}}">Home</a></li>
+            <li><a href="#seo-health">SEO Health</a></li>
+            <li><a href="#keywords">Keywords</a></li>
+            <li><a href="#traffic">Traffic</a></li>
+            <li><a href="#competitors">Competitors</a></li>
+            <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
             <li><a href="#">Reports</a></li>
           </ul>
         </nav>
@@ -93,11 +93,14 @@
       </table>
       
     {% endif %}
+    <section>
 
-    <section class="acquisition-section">
-        <h2>Acquisition Strategies</h2>
-            <p>{{ recommendations | safe }}</p>
-      </section>
+      <a href="{{ url_for('backlink_recommendations') }}" class="btn" target="_blank">See Recommendations</a>
+
+
+    </section>
+    
+
 
 </body>
 </html>
