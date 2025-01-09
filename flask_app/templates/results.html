@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-          <ul>
-            <li><a href="{{url_for ('home')}}">Home</a></li>
-            <li><a href="#seo-health">SEO Health</a></li>
-            <li><a href="#keywords">Keywords</a></li>
-            <li><a href="#traffic">Traffic</a></li>
-            <li><a href="#competitors">Competitors</a></li>
-            <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
-            <li><a href="#">Reports</a></li>
-          </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="{{url_for ('home')}}">Home</a></li>
+        <li><a href="#">SEO Health</a></li>
+        <li><a href="#keywords">Keywords</a></li>
+        <li><a href="#traffic">Traffic</a></li>
+        <li><a href="#competitor">Competitors</a></li>
+        <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
+        <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+</header>
 
     <h1>Backlinks Results</h1>
 

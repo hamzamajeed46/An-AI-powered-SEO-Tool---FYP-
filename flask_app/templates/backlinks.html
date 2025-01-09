@@ -7,19 +7,20 @@
   <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-          <ul>
-            <li><a href="{{url_for ('home')}}">Home</a></li>
-            <li><a href="#">SEO Health</a></li>
-            <li><a href="../Keywords Insights/index.html">Keywords</a></li>
-            <li><a href="../Traffic Analysis/traffic_input.html">Traffic</a></li>
-            <li><a href="../Competitor Insights/index.html">Competitors</a></li>
-            <li><a href="index.html">Backlinks</a></li>
-            <li><a href="#">Reports</a></li>
-          </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="{{url_for ('home')}}">Home</a></li>
+        <li><a href="#">SEO Health</a></li>
+        <li><a href="#keywords">Keywords</a></li>
+        <li><a href="#traffic">Traffic</a></li>
+        <li><a href="#competitor">Competitors</a></li>
+        <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
+        <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+</header>
 
 <main>
 <section class="input-section">
