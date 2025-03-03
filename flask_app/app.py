@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
 from flask import session
+import zlib
+import base64
+import json
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
-#from metadata_analysis import fetch_metadata, generate_recommendations, analyze_keywords
+from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
 
 app = Flask(__name__)
 
@@ -13,13 +16,56 @@ app.secret_key = '1234'  # Use a random, secure key for production
 def home():
     return render_template('home.html')
 
+def compress_data(data):
+    return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
+
+def decompress_data(data):
+    return json.loads(zlib.decompress(base64.b64decode(data)).decode())
+
+
+@app.route('/metadata')
+def metadata():
+    return render_template('metadata.html')
+
+
+@app.route("/get_metadata", methods=["GET", "POST"])
+def metadata_analysis():
+    # Initialize variables
+    metadata_main = {}
+    keyword_data_main = {}
+
+    if request.method == "POST":
+        # Extract user input from the form
+        main_url = request.form.get("website")
+        keyword = request.form.get("keyword")
+
+        # Fetch metadata if provided
+        if main_url:
+            metadata_main = fetch_metadata(main_url)
+
+        # Perform keyword analysis if a keyword is provided
+        if keyword and main_url:
+            keyword_data_main, body_text = analyze_keywords(main_url, keyword)
+
+    data = {"Metadata":metadata_main, "Focus keyword entered by client":keyword ,"Keyword Density extracted from body text":keyword_data_main }
+    recommendations = metadata_recommendations(data)
+
+    # Render template with initialized variables to avoid UnboundLocalError
+    return render_template(
+        "metadata_analysis.html",
+        metadata_main=metadata_main,
+        keyword_data_main=keyword_data_main,
+        recommendations = recommendations
+    )
+
+
 @app.route('/backlinks')
 def backlinks():
     return render_template('backlinks.html')
 
 @app.route('/backlink_recommendations')
 def backlink_recommendations():
-    data = session.get('backlinks_data')  # Retrieve the backlinks data from session
+    data = decompress_data(session.pop('backlinks_data', None))  # Retrieve the backlinks data from session
 
     if not data:
         return "Error: No backlinks data found."
@@ -41,9 +87,33 @@ def get_backlinks():
     if "error" in data:  # Check for errors in the response
         return render_template('results.html', error=data["error"])
 
-    session['backlinks_data'] = data
+    data1 = str(data)
+    if len(data1) > 4200:
+        data2 = {'url':data['url'],'domainRating':data['domainRating'],
+        'urlRating':data['urlRating'], 'backlinks':data['backlinks'], 'refdomains':data['refdomains'],
+        'dofollowBacklinks':data['dofollowBacklinks'], 'dofollowRefdomains':data['dofollowRefdomains'],
+        'backlinksList':data['backlinksList'][:11] }
+        session['backlinks_data'] = compress_data(data2)
+
+    else:
+
+        session['backlinks_data'] = compress_data(data)
+    
+
+
+    
+    
     
     return render_template('results.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+def compress_data(data):
+    return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
+
+def decompress_data(data):
+    return json.loads(zlib.decompress(base64.b64decode(data)).decode())

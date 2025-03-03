@@ -17,7 +17,7 @@ def fetch_backlinks(input_web):
     querystring = {"url": input_web, "mode": "subdomains"}
 
     headers = {
-        "x-rapidapi-key": "625de418a4msh90a3327fa1424dfp1b4745jsn8eea7354cf51",
+        "x-rapidapi-key": "e18b7c2375msh98e5a75ede629a7p18ee6ejsne8f5cbf8154e",
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 

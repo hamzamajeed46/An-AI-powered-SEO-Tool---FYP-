@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata Results</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <ul>
+            <li><a href="{{url_for ('home')}}">Home</a></li>
+            <li><a href="#">SEO Health</a></li>
+            <li><a href="#keywords">Keywords</a></li>
+            <li><a href="#traffic">Traffic</a></li>
+            <li><a href="#competitor">Competitors</a></li>
+            <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
+            <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
+            <li><a href="#">Reports</a></li>
+          </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Metadata & Keyword Analysis</h1>
+
+        <!-- Render metadata if available -->
+        {% if metadata_main %}
+            <h2>Main URL Metadata</h2>
+            <table>
+                {% for key, value in metadata_main.items() %}
+                    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <!-- Keyword Analysis Section -->
+        {% if keyword_data_main %}
+            <h3>Keyword Analysis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Count</th>
+                        <th>Density (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for keyword, data in keyword_data_main.items() %}
+                        <tr>
+                            <td>{{ keyword }}</td>
+                            <td>{{ data.count }}</td>
+                            <td>{{ data.density }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No keyword analysis data available.</p>
+        {% endif %}
+
+    </div>
+    <section>
+
+        <h1>Recommendations for Metadata and Focus Keyword in Website Content</h1>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% else %}
+            <section class="acquisition-section">
+                <h2>Recommendations</h2>
+                    <p>{{ recommendations | safe }}</p>
+            </section>
+
+        {% endif %}
+        
+      </section>
+
+    <footer>
+        <div class="footer-container">
+          <a href="#about">About Us</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+          <a href="#contact">Contact Info</a>
+        </div>
+      </footer>
+
+</body>
+</html>
