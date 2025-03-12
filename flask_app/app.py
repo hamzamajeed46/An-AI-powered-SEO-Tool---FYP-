@@ -5,6 +5,7 @@ import base64
 import json
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
+from traffic import get_traffic_history, traffic_insights
 
 app = Flask(__name__)
 
@@ -99,12 +100,39 @@ def get_backlinks():
 
         session['backlinks_data'] = compress_data(data)
     
-
-
-    
-    
-    
     return render_template('results.html', data=data)
+
+@app.route("/traffic_analysis", methods=["GET", "POST"])
+def traffic_input():
+    return render_template("traffic_input.html")
+
+@app.route("/results", methods=["GET"])
+def traffic_results():
+    # Get user input
+    website = request.args.get("website")
+
+    # Get traffic history using the imported function
+    traffic_history, data = get_traffic_history(website)
+
+    if traffic_history is None:
+        return render_template("traffic_results.html", error="API Error: Unable to fetch data")
+
+    session['traffic_data'] = compress_data(data)
+
+    return render_template("traffic_results.html", data=data, website=website, traffic_history=json.dumps(traffic_history))
+
+
+@app.route('/traffic_recommendations')
+def traffic_recommendations():
+    data = decompress_data(session.pop('traffic_data', None))  # Retrieve the backlinks data from session
+    session['traffic_data'] = compress_data(data)
+    if not data:
+        return "Error: No backlinks data found."
+
+    recommendations = traffic_insights(data)
+
+    return render_template('traffic_r.html', recommendations=recommendations)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

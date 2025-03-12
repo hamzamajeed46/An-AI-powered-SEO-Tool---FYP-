@@ -32,7 +32,7 @@ body {
     color: #ffffff;
     background-color: #00509e; /* Background for each link */
     padding: 0.75rem; /* Padding to create square-like appearance */
-    border-radius: 8px; /* Optional: for rounded squares */
+    border-radius: 4px; /* Optional: for rounded squares */
     text-align: center;
     width: 100px; /* Fixed width to make squares uniform */
     height: 50px; /* Fixed height for square shape */
