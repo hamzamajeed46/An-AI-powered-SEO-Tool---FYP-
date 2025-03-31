@@ -8,10 +8,17 @@
 </head>
 <body>
   <header class="hero-section">
-    <h1>Simplify Your SEO with AI-Powered Insights</h1>
-    <div class="cta-buttons">
-      <a href="#sign-up" class="btn">Sign Up Now</a>
-      <a href="#learn-more" class="btn-outline">Learn More</a>
+    <nav class="top-nav">
+      <div class="nav-right">
+        <a href="#sign-in" class="btn btn-outline">Sign In</a>
+        <a href="#sign-up" class="btn">Sign Up</a>
+      </div>
+    </nav>
+    <div class="hero-content">
+      <h1>Simplify Your SEO with AI-Powered Insights</h1>
+      <div>
+        <a href="#learn-more" class="btn btn-secondary">Learn More</a>
+      </div>
     </div>
   </header>
 
@@ -26,7 +33,7 @@
     </a>
   </div>
   <div class="feature-item">
-    <a href="#keywords">
+    <a href="{{ url_for('keyword_input') }}">
       <img src="{{ url_for('static', filename='images/keyword.png') }}" alt="Keyword Recommendations">
       <span>Keyword Recommendations</span>
     </a>
@@ -43,6 +50,8 @@
       <span>Competitor Insights</span>
     </a>
   </div>
+  </div>
+  <div class="features-container">
   <div class="feature-item">
     <a href="{{ url_for('metadata') }}">
       <img src="{{ url_for('static', filename='images/metadata.png') }}" alt="Backlinks Analysis">

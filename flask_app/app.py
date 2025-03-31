@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask import session
 import zlib
 import base64
@@ -6,6 +6,7 @@ import json
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
 from traffic import get_traffic_history, traffic_insights
+from keywords_analysis import fetch_keyword_suggestions  # Import the new function
 
 app = Flask(__name__)
 
@@ -133,12 +134,29 @@ def traffic_recommendations():
 
     return render_template('traffic_r.html', recommendations=recommendations)
 
+@app.route('/keyword_input', methods=["GET"])
+def keyword_input():
+    return render_template("keyword_input.html")
+
+@app.route('/keyword_analysis', methods=["POST"])
+def keyword_analysis():
+    keyword = request.form.get("keyword")
+    search_engine = request.form.get("search_engine", "google")
+    country = request.form.get("country", "us")
+
+    if not keyword:
+        return render_template("keyword_result.html", error="Keyword is required.")
+
+    # Fetch keyword suggestions
+    results = fetch_keyword_suggestions(keyword, search_engine, country)
+
+    if "error" in results:
+        return render_template("keyword_result.html", error=results["error"])
+
+    return render_template("keyword_result.html", results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
 
 def compress_data(data):
     return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
