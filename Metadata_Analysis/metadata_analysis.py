@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 import re
 import markdown
 from langchain_groq import ChatGroq
+from config import Config
 
 # Initialize the ChatGroq LLM
 llm = ChatGroq(
     temperature=0,
-    groq_api_key='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',
+    groq_api_key= Config.LLM_API,
     model_name="llama3-70b-8192"
 )
 

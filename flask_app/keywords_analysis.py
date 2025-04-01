@@ -1,5 +1,5 @@
 import requests
-import os  # Added to access environment variables
+from config import Config
 
 def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
     """
@@ -17,7 +17,7 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
     querystring = {"keyword": keyword, "se": search_engine, "country": country}
 
     headers = {
-        "x-rapidapi-key": "85e7d0841amshe3a29d2229bb909p17f5ccjsnefcb401c476a",  # Fetch API key from environment variable
+        "x-rapidapi-key": Config.API_KEY,  # Fetch API key from environment variable
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 

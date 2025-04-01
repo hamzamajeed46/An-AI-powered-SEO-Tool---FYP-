@@ -1,11 +1,12 @@
 import requests
 from langchain_groq import ChatGroq
 from markdown import markdown
+from config import Config
 
 # API Details
 API_URL = "https://ahrefs1.p.rapidapi.com/v1/website-traffic-checker"
 HEADERS = {
-    "x-rapidapi-key": "85e7d0841amshe3a29d2229bb909p17f5ccjsnefcb401c476a",
+    "x-rapidapi-key": Config.API_KEY,
     "x-rapidapi-host": "ahrefs1.p.rapidapi.com"
 }
 
@@ -38,7 +39,7 @@ def traffic_insights(traffic_data):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key='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',
+        groq_api_key= Config.LLM_API,
         model_name="llama-3.3-70b-versatile"
     )
 
@@ -54,3 +55,4 @@ def traffic_insights(traffic_data):
     # Invoke the LLM and get the response
     response = llm.invoke(prompt)
     return markdown(response.content)  # Convert the response to Markdown
+

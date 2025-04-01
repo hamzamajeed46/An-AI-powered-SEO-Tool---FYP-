@@ -270,6 +270,7 @@ button.btn:hover {
     border-radius: 12px;
     width: 150px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 }
 
 .feature-item a {
@@ -279,11 +280,13 @@ button.btn:hover {
     text-decoration: none;
     color: inherit;
     text-align: center;
+    
 }
 
 .feature-item a img {
     max-width: 60%; /* Adjust as needed */
     height: auto;
+    
     margin-bottom: 8px;
     filter: brightness(0.2); /* Darkens the black image slightly for visibility */
 }

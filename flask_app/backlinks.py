@@ -1,6 +1,7 @@
 import requests
 from langchain_groq import ChatGroq
 from markdown import markdown
+from config import Config 
 
 # Function to call the Ahrefs API and fetch backlinks data
 def fetch_backlinks(input_web):
@@ -17,7 +18,7 @@ def fetch_backlinks(input_web):
     querystring = {"url": input_web, "mode": "subdomains"}
 
     headers = {
-        "x-rapidapi-key": "e18b7c2375msh98e5a75ede629a7p18ee6ejsne8f5cbf8154e",
+        "x-rapidapi-key": Config.API_KEY,
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 
@@ -42,7 +43,7 @@ def generate_seo_recommendations(backlinks_data):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key='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',
+        groq_api_key=Config.LLM_API,
         model_name="llama-3.3-70b-versatile"
     )
 
@@ -72,7 +73,7 @@ def generate_seo_insights(backlinks_data):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key='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',
+        groq_api_key=Config.LLM_API,
         model_name="llama-3.3-70b-versatile"
     )
 
