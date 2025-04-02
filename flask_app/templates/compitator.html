@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Analysis</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="{{url_for ('home')}}">Home</a></li>
+        <li><a href="#">SEO Health</a></li>
+        <li><a href="{{url_for ('keyword_input')}}">Keywords</a></li>
+        <li><a href="{{url_for ('traffic_input')}}">Traffic</a></li>
+        <li><a href="{{url_for ('compitator')}}">Competitors</a></li>
+        <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
+        <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+</header>
+
+<body>
+    <h1>Competitor Analysis</h1>
+    <a href="{{ url_for('find_compitator') }}">
+        <button class="btn btn-primary">Find My Competitor</button>
+    </a>
+
+    <div class="btn-group">
+        <a href="#1" class="btn btn-secondary">Compare SEO</a>
+        <a href="#2" class="btn btn-primary">Compare Traffic</a>
+        <a href="#3" class="btn btn-secondary">Compare Keywords</a>
+        <a href="#3" class="btn btn-primary">Compare Backlinks</a>
+    </div>
+    
+</body>
+</html>

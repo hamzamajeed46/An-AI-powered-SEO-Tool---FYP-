@@ -3,6 +3,8 @@ from flask import session
 import zlib
 import base64
 import json
+import pycountry
+from compitator import find_compitators
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
 from traffic import get_traffic_history, traffic_insights
@@ -155,11 +157,44 @@ def keyword_analysis():
 
     return render_template("keyword_result.html", results=results)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+
+@app.route('/compitator' , methods=["GET"])
+def compitator():
+    return render_template("compitator.html")
+
+@app.route('/find_compitator', methods=["GET", "POST"])
+def find_compitator():
+    competitors = None
+    error = None
+
+    if request.method == "POST":
+        keyword = request.form.get("keyword")
+        country = request.form.get("country")
+        num_results = request.form.get("num_results", type=int, default=10)
+
+        num_results = min(num_results, 100)  # Ensure it's not more than 100
+
+        if not keyword:
+            error = "Keyword is required."
+        else:
+            result = find_compitators(keyword, country=country, num_results=num_results)
+
+            if isinstance(result, dict) and "error" in result:
+                error = result["error"]
+            else:
+                competitors = result
+
+    # Get all country names for the dropdown
+    countries = sorted([country.name for country in pycountry.countries])
+
+    return render_template("find_compitator.html", countries=countries, competitors=competitors, error=error)
 
 def compress_data(data):
     return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
 
 def decompress_data(data):
     return json.loads(zlib.decompress(base64.b64decode(data)).decode())
+
+if __name__ == '__main__':
+    app.run(debug=True)
