@@ -1,0 +1,43 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SEO Tool{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+    <body class="light-theme">
+        <header>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="#">SEO Health</a></li>
+                    <li><a href="{{ url_for('keyword_input') }}">Keywords</a></li>
+                    <li><a href="{{ url_for('traffic_input') }}">Traffic</a></li>
+                    <li><a href="{{ url_for('compitator') }}">Competitors</a></li>
+                    <li><a href="{{ url_for('metadata') }}">Metadata</a></li>
+                    <li><a href="{{ url_for('backlinks') }}">Backlinks</a></li>
+                    <li><a href="#">Reports</a></li>
+                    
+                </ul>
+                
+            </nav>
+        </header>
+
+        <!-- Theme toggle button in top-right corner -->
+        
+    
+        
+        <li><button id="theme-toggle" class="theme-toggle-btn">🌙</button></li>
+        
+
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+        {% block content %} 
+        
+        {% endblock %}
+    </body>
+</html>
+

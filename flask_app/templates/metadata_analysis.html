@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metadata Results</title>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-          <ul>
-            <li><a href="{{url_for ('home')}}">Home</a></li>
-            <li><a href="#">SEO Health</a></li>
-            <li><a href="#keywords">Keywords</a></li>
-            <li><a href="{{url_for ('traffic_input')}}">Traffic</a></li>
-            <li><a href="#competitor">Competitors</a></li>
-            <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
-            <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
-            <li><a href="#">Reports</a></li>
-          </ul>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
+{% block title %}Metadata Analysis{% endblock %}
+
+{% block content %}
     <div class="container">
         <h1>Metadata & Keyword Analysis</h1>
 
@@ -86,5 +67,4 @@
         </div>
       </footer>
 
-</body>
-</html>
+{% endblock %}

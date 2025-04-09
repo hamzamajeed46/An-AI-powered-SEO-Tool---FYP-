@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/styles.css">
-    <title>Find Competitor</title>
-</head>
+{% extends "base.html" %}
 
-<header>
-    <nav class="navbar">
-      <ul>
-        <li><a href="{{url_for ('home')}}">Home</a></li>
-        <li><a href="#">SEO Health</a></li>
-        <li><a href="{{url_for ('keyword_input')}}">Keywords</a></li>
-        <li><a href="{{url_for ('traffic_input')}}">Traffic</a></li>
-        <li><a href="{{url_for ('compitator')}}">Competitors</a></li>
-        <li><a href="{{url_for ('metadata')}}">Metadata</a></li>
-        <li><a href="{{url_for ('backlinks')}}">Backlinks</a></li>
-        <li><a href="#">Reports</a></li>
-      </ul>
-    </nav>
-</header>
+{% block title %}Find Competitor{% endblock %}
 
-<body>
-    <h2>Find Your Competitors</h2>
+{% block content %}
+    <h1>Find Your Competitors</h1>
 
     <form action="{{ url_for('find_compitator') }}" method="post" class="keyword-form">
         <label for="keyword">Keyword:</label>
@@ -54,5 +34,5 @@
             {% endfor %}
         </ul>
     {% endif %}
-</body>
-</html>
+
+{% endblock %}

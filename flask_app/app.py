@@ -4,7 +4,7 @@ import zlib
 import base64
 import json
 import pycountry
-from compitator import find_compitators
+from compitator import find_compitators,compare_backlinks
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
 from traffic import get_traffic_history, traffic_insights
@@ -159,11 +159,11 @@ def keyword_analysis():
 
 
 
-@app.route('/compitator' , methods=["GET"])
+@app.route('/competitor' , methods=["GET"])
 def compitator():
-    return render_template("compitator.html")
+    return render_template("competitor.html")
 
-@app.route('/find_compitator', methods=["GET", "POST"])
+@app.route('/find_competitor', methods=["GET", "POST"])
 def find_compitator():
     competitors = None
     error = None
@@ -188,13 +188,35 @@ def find_compitator():
     # Get all country names for the dropdown
     countries = sorted([country.name for country in pycountry.countries])
 
-    return render_template("find_compitator.html", countries=countries, competitors=competitors, error=error)
+    return render_template("find_competitor.html", countries=countries, competitors=competitors, error=error)
 
 def compress_data(data):
     return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
 
 def decompress_data(data):
     return json.loads(zlib.decompress(base64.b64decode(data)).decode())
+@app.route('/compare_backlinks', methods=["GET", "POST"])
+def compare_backlinks_route():
+    error = None
+
+    if request.method == "POST":
+        main_website = request.form.get("main_website")
+        competitor_website = request.form.get("competitor_website")
+
+        if not main_website or not competitor_website:
+            error = "Both website URLs are required."
+            return render_template("c_backlinks_input.html", error=error)
+
+        comparison_result = compare_backlinks(main_website, competitor_website)
+
+        if "error" in comparison_result:
+            error = comparison_result["error"]
+            return render_template("c_backlinks_input.html", error=error)
+
+        return render_template("c_backlinks_result.html", result=comparison_result)
+
+    return render_template("c_backlinks_input.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

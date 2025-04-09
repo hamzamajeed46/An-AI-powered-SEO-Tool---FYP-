@@ -1,28 +1,37 @@
-import requests
+import json
 from langchain_groq import ChatGroq
 from markdown import markdown
+import os
 from config import Config
+import http.client
 
 # API Details
-API_URL = "https://ahrefs1.p.rapidapi.com/v1/website-traffic-checker"
+API_URL = "https://ahrefs2.p.rapidapi.com/traffic"
 HEADERS = {
-    "x-rapidapi-key": Config.API_KEY,
+    "x-rapidapi-key": os.getenv('API_KEY1'),
     "x-rapidapi-host": "ahrefs1.p.rapidapi.com"
 }
 
 def get_traffic_history(website):
-    """Fetches traffic history for the given website."""
-    query_params = {"url": website, "mode": "subdomains"}
-    response = requests.get(API_URL, headers=HEADERS, params=query_params)
+    
 
-    if response.status_code != 200:
-        return None, "API Error: Unable to fetch data"
+    conn = http.client.HTTPSConnection("ahrefs1.p.rapidapi.com")
 
-    data = response.json()
+    headers = {
+        'x-rapidapi-key': os.getenv("API_KEY"),
+        'x-rapidapi-host': "ahrefs1.p.rapidapi.com"
+    }
+
+    conn.request("GET", f"/v1/website-traffic-checker?url={website}&mode=subdomains", headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    data = json.loads(data)
     
     # Extract traffic history (format: {"10": 74, "11": 53, ...})
     traffic_history = {item["date"][5:7]: item["organic"] for item in data.get("traffic_history", [])}
-
+    print(traffic_history,data)  # Debugging line to check the traffic history
     return traffic_history, data  # Returning both traffic history and full data
 
 

@@ -2,6 +2,7 @@ import requests
 from langchain_groq import ChatGroq
 from markdown import markdown
 from config import Config 
+import os
 
 # Function to call the Ahrefs API and fetch backlinks data
 def fetch_backlinks(input_web):
@@ -18,7 +19,7 @@ def fetch_backlinks(input_web):
     querystring = {"url": input_web, "mode": "subdomains"}
 
     headers = {
-        "x-rapidapi-key": Config.API_KEY,
+        "x-rapidapi-key": os.getenv('API_KEY2'),
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Competitor Analysis{% endblock %}
+
+{% block content %}
+
+
+    <h1>Competitor Analysis</h1>
+    <a href="{{ url_for('find_compitator') }}">
+        <button class="btn btn-primary">Find My Competitor</button>
+    </a>
+
+    <div class="btn-group">
+        <a href="#1" class="btn btn-secondary">Compare SEO</a>
+        <a href="#2" class="btn btn-primary">Compare Traffic</a>
+        <a href="#3" class="btn btn-secondary">Compare Keywords</a>
+        <a href="{{ url_for('compare_backlinks_route') }}" class="btn btn-primary">Compare Backlinks</a>
+    </div>
+    
+
+{% endblock %}
