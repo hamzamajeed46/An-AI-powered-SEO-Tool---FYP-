@@ -1,24 +1,60 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask import session
 import zlib
 import base64
 import json
 import pycountry
+from pymongo import MongoClient
 from compitator import find_compitators,compare_backlinks
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
-from metadata_analysis import fetch_metadata, metadata_recommendations, analyze_keywords
+from metadata_analysis import fetch_metadata, metadata_recommendations
 from traffic import get_traffic_history, traffic_insights
-from keywords_analysis import fetch_keyword_suggestions  # Import the new function
+from keywords_analysis import fetch_keyword_suggestions
+from compare_traffic import fetch_traffic_data, generate_llm_comparison_insights
+from signin import login_route, signup_route
 
 app = Flask(__name__)
 
 app.secret_key = '1234'  # Use a random, secure key for production
 
 
-# Home route to render the input form
+def get_db_connection():
+    try:
+        client = MongoClient('mongodb://localhost:27017/')
+        db = client['seotool']  # Replace with your DB name
+        print("Connected to MongoDB successfully!")
+        return db
+    except Exception as e:
+        print("MongoDB connection failed:", e)
+        return None
+
 @app.route('/')
 def home():
+    '''
+    if 'user_id' in session:
+        return render_template('home.html', username=session['username'])
+    else:
+        return redirect(url_for('login'))
+    '''
     return render_template('home.html')
+    
+# Login route
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    return login_route()
+
+# Sign-up route
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
+    return signup_route()
+
+# Log out route to end session
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
+
 
 def compress_data(data):
     return base64.b64encode(zlib.compress(json.dumps(data).encode())).decode()
@@ -44,13 +80,12 @@ def metadata_analysis():
         keyword = request.form.get("keyword")
 
         # Fetch metadata if provided
-        if main_url:
-            metadata_main = fetch_metadata(main_url)
+        if keyword and main_url:
+            metadata_main, keyword_data_main, body_text = fetch_metadata(main_url, keyword)
 
         # Perform keyword analysis if a keyword is provided
-        if keyword and main_url:
-            keyword_data_main, body_text = analyze_keywords(main_url, keyword)
-
+        if main_url:
+            metadata_main = fetch_metadata(main_url)
     data = {"Metadata":metadata_main, "Focus keyword entered by client":keyword ,"Keyword Density extracted from body text":keyword_data_main }
     recommendations = metadata_recommendations(data)
 
@@ -138,7 +173,8 @@ def traffic_recommendations():
 
 @app.route('/keyword_input', methods=["GET"])
 def keyword_input():
-    return render_template("keyword_input.html")
+    countries = sorted([country.name for country in pycountry.countries])
+    return render_template("keyword_input.html", countries=countries)
 
 @app.route('/keyword_analysis', methods=["POST"])
 def keyword_analysis():
@@ -154,6 +190,7 @@ def keyword_analysis():
 
     if "error" in results:
         return render_template("keyword_result.html", error=results["error"])
+    
 
     return render_template("keyword_result.html", results=results)
 
@@ -217,6 +254,32 @@ def compare_backlinks_route():
 
     return render_template("c_backlinks_input.html")
 
+
+
+@app.route("/compare_traffic", methods=["GET", "POST"])
+def compare_traffic():
+    if request.method == "POST":
+        website1 = request.form.get("website1")
+        website2 = request.form.get("website2")
+
+        history1, data1 = fetch_traffic_data(website1)
+        history2, data2 = fetch_traffic_data(website2)
+
+        if not data1 or not data2:
+            return render_template("compare_traffic.html", error="Failed to fetch data for one or both websites.")
+
+        insights = generate_llm_comparison_insights(data1, data2, website1, website2)
+
+        return render_template("compare_traffic_result.html",
+                               website1=website1,
+                               website2=website2,
+                               data1=data1,
+                               data2=data2,
+                               history1=json.dumps(history1),
+                               history2=json.dumps(history2),
+                               insights=insights)
+
+    return render_template("compare_traffic.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

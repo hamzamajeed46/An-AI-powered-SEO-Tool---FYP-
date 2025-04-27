@@ -17,7 +17,11 @@
         </select>
         <br>
         <label for="country">Country:</label>
-        <input type="text" id="country" name="country" value="us" required>
+        <select name="country">
+            {% for country in countries %}
+            <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
         <br>
         <button type="submit" class="btn">Analyze</button>
     </form>

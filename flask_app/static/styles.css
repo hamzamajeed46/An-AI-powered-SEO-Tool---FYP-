@@ -11,8 +11,8 @@
 
 
 body.dark-theme {
-    --primary-color: #4ca1af;
-    --secondary-color: #349cc9d2;
+    --primary-color: #349cc9d2;
+    --secondary-color: #4ca1af;
     --background-color: #1c1e22;
     --background-color2: rgb(35, 37, 37);
     --text-color: #f1f1f1;
@@ -39,7 +39,7 @@ a {
 
 h1 {
     text-align: center;
-    color: var(--primary-color);
+    color: var(--secondary-color);
     margin: 2rem 0;
     font-size: 2.5rem;
 }
@@ -175,6 +175,7 @@ button.btn:hover {
     border-radius: 8px;
     font-size: 1rem;
     background-color: var(--background-color2);
+    color: var(--text-color)
     
 }
 
@@ -370,12 +371,17 @@ button.btn:hover {
 }
 
 .metric-card {
-    background-color: var(--background-color2);
+    background-color: transparent; /* Same as page by default */
     padding: 0.3rem;
     border-radius: 12px;
     text-align: center;
     font-size: 18px;
     width: 150px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.metric-card:hover {
+    background-color: var(--background-color2); /* Hover background */
 }
 
 .metric-card h2 {
@@ -385,6 +391,11 @@ button.btn:hover {
 .metric-card1 h2 {
     margin-bottom: 0.5rem;
 }
+
+b, strong {
+    color: var(--primary-color);
+}
+
 
 table {
     width: 90%;
@@ -599,8 +610,13 @@ footer {
 }
 .btn-outline {
     background-color: transparent;
-    color: #007bff;
-    border: 2px solid #007bff;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 .theme-toggle-btn {

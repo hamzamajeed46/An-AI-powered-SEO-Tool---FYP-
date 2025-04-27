@@ -1,26 +1,34 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime
+from flask import session
 import markdown
 from langchain_groq import ChatGroq
 from config import Config 
+from backlinks import get_db_connection 
 
 # Initialize the ChatGroq LLM
 llm = ChatGroq(
     temperature=0,
     groq_api_key= Config.LLM_API,
-    model_name="llama3-70b-8192"
+    model_name="deepseek-r1-distill-llama-70b"
 )
 
-# Function to fetch metadata from a URL
-def fetch_metadata(url):
+def fetch_metadata(url, keyword=None):
     try:
+        db = get_db_connection()  # Get the database connection
+
         if not url.startswith(("http://", "https://")):
             url = f"https://{url}"
 
         response = requests.get(url, timeout=35)
         soup = BeautifulSoup(response.text, 'html.parser')
         
+        body_text = soup.get_text(separator=" ").lower()
+        words = body_text.split()
+        total_words = len(words)
+
         # Extracting metadata
         title = soup.title.string if soup.title else "No Title Found"
         description = soup.find("meta", attrs={"name": "description"})
@@ -32,65 +40,79 @@ def fetch_metadata(url):
         h1 = soup.find("h1")
         h1 = h1.get_text(strip=True) if h1 else "No H1 Tag Found"
         
-        return {
+        metadata = {
             "title": title,
             "description": description,
             "canonical": canonical,
             "favicon": favicon,
-            "h1": h1
+            "h1": h1,
+            "url": url  # Add URL also in metadata
         }
+
+        keyword_data = {}
+        if keyword:
+            # Analyze keyword
+            keywords = [keyword.lower()] + keyword.lower().split()
+            for word in keywords:
+                count = len(re.findall(rf"\b{re.escape(word)}\b", body_text))
+                density = round((count / total_words) * 100, 2) if total_words > 0 else 0
+                keyword_data[word] = {"count": count, "density": density}
+
+        # If user logged in, insert into 'metadata' collection
+        if 'email' in session:
+            doc = {
+                "email": session['email'],
+                "title": title,
+                "description": description,
+                "canonical": canonical,
+                "favicon": favicon,
+                "h1": h1,
+                "url": url,
+                "date": datetime.utcnow().strftime('%Y-%m-%d')
+            }
+            if keyword:
+                doc['keyword_data'] = keyword_data
+                doc['body_text'] = body_text
+
+            db.metadata.insert_one(doc)
+
+        if keyword:
+            return metadata, keyword_data, body_text
+        
+        return metadata
+        
     except Exception as e:
         return {"error": f"Failed to fetch metadata: {str(e)}"}
 
-# Function to generate recommendations using the LLM
+
 def metadata_recommendations(client_metadata):
-    try:    
+    try:
+        db = get_db_connection()
+
         # Prepare a prompt for the LLM
         prompt = (
             "Analyze the following website metadata and provide SEO recommendations "
-            "for the client to improve their website's performance"
-            "\n"
-            f"Client Metadata:\n"
-            f"{client_metadata}"
-            
+            "for the client to improve their website's performance.\n"
+            f"Client Metadata:\n{client_metadata}\n"
+            "Provide specific and actionable recommendations only for the client."
         )
-
-        prompt += "\nProvide specific and actionable recommendations only for the client."
 
         # Invoke the LLM
         response = llm.invoke(prompt)
         
         if response:
-            # Convert Markdown to HTML
-            return markdown.markdown(response.content)
+            recommendations_html = markdown.markdown(response.content)
+
+            # If user is logged in, update the most recent metadata document
+            db.metadata.update_one(
+                {"url:": client_metadata["url"]},
+                {"$set": {"recommendations": recommendations_html}},
+                sort=[("_id", -1)]  # Sort by latest inserted document
+            )
+
+            return recommendations_html
         else:
             return "No recommendations provided."
+        
     except Exception as e:
         return f"Failed to generate recommendations: {str(e)}"
-
-# Function to analyze keyword usage in the website's body text
-def analyze_keywords(url, keyword):
-    try:
-        if not url.startswith(("http://", "https://")):
-            url = f"https://{url}"
-
-        response = requests.get(url, timeout=30)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Extract body text
-        body_text = soup.get_text(separator=" ").lower()
-        words = body_text.split()
-        total_words = len(words)
-        
-        # Analyze keyword
-        keyword_data = {}
-        keywords = [keyword.lower()] + keyword.lower().split()
-        
-        for word in keywords:
-            count = len(re.findall(rf"\b{re.escape(word)}\b", body_text))
-            density = round((count / total_words) * 100, 2) if total_words > 0 else 0
-            keyword_data[word] = {"count": count, "density": density}
-        
-        return keyword_data,body_text
-    except Exception as e:
-        return {"error": f"Failed to analyze {url}: {str(e)}"}

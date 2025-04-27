@@ -53,7 +53,7 @@
           <table>
             <thead>
               <tr>
-                <th style="width: 300px;">URL</th>
+                <th style="width: 350px;">URL</th>
                 <th>Title</th>
                 <th>Domain Rating</th>
                 <th style="width: 200px;">Target URL</th>
@@ -65,7 +65,7 @@
             <tbody>
               {% for backlink in data.backlinksList %}
               <tr>
-                <td style="word-break: break-all; max-width: 300px;">{{ backlink.url }}</td>
+                <td style="word-break: break-all; max-width: 350px;">{{ backlink.url }}</td>
                 <td>{{ backlink.title }}</td>
                 <td>{{ backlink.domain_rating }}</td>
                 <td style="word-break: break-all; max-width: 200px;">{{ backlink.target_url }}</td>
@@ -82,7 +82,7 @@
     {% endif %}
     <section>
 
-      <a href="{{ url_for('backlink_recommendations') }}" class="btn" target="_blank">See Recommendations</a>
+      <a href="{{ url_for('backlink_recommendations') }}" class="btn btn-outline" target="_blank">See Recommendations</a>
 
 
     </section>
