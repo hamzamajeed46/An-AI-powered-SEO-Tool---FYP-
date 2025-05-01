@@ -12,6 +12,7 @@ from traffic import get_traffic_history, traffic_insights
 from keywords_analysis import fetch_keyword_suggestions
 from compare_traffic import fetch_traffic_data, generate_llm_comparison_insights
 from signin import login_route, signup_route
+from compare_metadata import compare_metadata2, generate_comparison_recommendations
 
 app = Flask(__name__)
 
@@ -96,6 +97,28 @@ def metadata_analysis():
         keyword_data_main=keyword_data_main,
         recommendations = recommendations
     )
+
+
+@app.route('/compare_metadata')
+def compare_metadata():
+    return render_template('compare_metadata.html')
+
+@app.route('/get_compare_metadata', methods=['POST'])
+def get_compare_metadata():
+    if request.method == 'POST':
+        url1 = request.form.get('website1')
+        url2 = request.form.get('website2')
+        keyword = request.form.get('keyword')
+
+        comparison_result = compare_metadata2(url1, url2, keyword)
+        recommendations = generate_comparison_recommendations(comparison_result)
+
+        return render_template(
+            'compare_metadata_result.html',
+            results=comparison_result,
+            recommendations=recommendations
+        )
+
 
 
 @app.route('/backlinks')

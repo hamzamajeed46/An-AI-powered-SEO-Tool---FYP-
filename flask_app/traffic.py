@@ -21,13 +21,13 @@ def get_traffic_history(website):
     Insert it into the 'traffic' collection if the user is logged in.
     """
     try:
-        conn = http.client.HTTPSConnection("ahrefs1.p.rapidapi.com")
+        conn = http.client.HTTPSConnection("ahrefs2.p.rapidapi.com")
         headers = {
             'x-rapidapi-key': os.getenv("API_KEY3"),
-            'x-rapidapi-host': "ahrefs1.p.rapidapi.com"
+            'x-rapidapi-host': "ahrefs2.p.rapidapi.com"
         }
         
-        conn.request("GET", f"/v1/website-traffic-checker?url={website}&mode=subdomains", headers=headers)
+        conn.request("GET", f"/traffic?url={website}&mode=subdomains", headers=headers)
         res = conn.getresponse()
         data = res.read()
         data = json.loads(data)
@@ -36,7 +36,7 @@ def get_traffic_history(website):
         traffic_history = {item["date"][5:7]: item["organic"] for item in data.get("traffic_history", [])}
         
         # Insert into MongoDB if user logged in
-        if "email" in session:
+        if res.status == 200 and "email" in session:
             db = get_db_connection()
             traffic_doc = {
                 "email": session["email"],
@@ -48,6 +48,7 @@ def get_traffic_history(website):
         return traffic_history, data  # Return both traffic_history and full data
 
     except Exception as e:
+        print(str(e))
         return {}, {"error": f"Failed to fetch traffic history: {str(e)}"}
 
 

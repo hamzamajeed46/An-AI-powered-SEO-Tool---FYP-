@@ -72,7 +72,7 @@ def fetch_metadata(url, keyword=None):
             }
             if keyword:
                 doc['keyword_data'] = keyword_data
-                doc['body_text'] = body_text
+                
 
             db.metadata.insert_one(doc)
 

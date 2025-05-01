@@ -302,7 +302,7 @@ button.btn:hover {
     text-align: center;
     padding: 0.3rem;
     background-color: var(--background-color); /* White */
-    border-radius: 12px;
+    border-radius: 15px;
     width: 150px;
     box-shadow: 0 2px 4px var(--shadow);
     transition: transform 0.2s ease;
@@ -319,7 +319,7 @@ button.btn:hover {
 }
 
 .feature-item a img {
-    max-width: 60%; /* Adjust as needed */
+    max-width: 45%; /* Adjust as needed */
     height: auto;
     
     margin-bottom: 8px;

@@ -1,11 +1,9 @@
-# compare_traffic.py
-import os
-from traffic import get_traffic_history
-from langchain_groq import ChatGroq
 from markdown import markdown
 from flask import session
+from langchain_groq import ChatGroq
 from config import Config
 from backlinks import get_db_connection  
+from traffic import get_traffic_history
 
 db = get_db_connection()
 traffic_collection = db["traffic"]
@@ -17,14 +15,24 @@ def fetch_traffic_data(website):
 
 def store_recommendations(email, website, recommendations):
     """
-    Store SEO recommendations for a website in the existing document in the 'traffic' collection.
+    Store SEO recommendations for a website in the most recent document 
+    in the 'traffic' collection based on the email and website URL.
     """
-    # Update the most recent document with the recommendations for the specific email and website URL
-    traffic_collection.update_one(
+    # Find the most recent document for the specified email and website URL
+    latest_doc = traffic_collection.find_one(
         {"email": email, "url": website},
-        {"$set": {"recommendations": recommendations}},
-        sort=[("_id", -1)]  # Ensure the most recent document is updated
+        sort=[("_id", -1)]  # Sort by _id in descending order to get the latest document
     )
+
+    if latest_doc:
+        # Update the most recent document with the SEO recommendations
+        traffic_collection.update_one(
+            {"_id": latest_doc["_id"]},  # Find the document by its _id
+            {"$set": {"recommendations": recommendations}}  # Set the recommendations field
+        )
+    else:
+        # If no document exists, you could handle this case (e.g., create a new document)
+        print(f"No document found for email: {email} and website: {website}")
 
 def generate_llm_comparison_insights(data1, data2, website1, website2):
     """
