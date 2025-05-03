@@ -3,15 +3,251 @@
 {% block title %}Backlinks Analysis{% endblock %}
 
 {% block content %}
-
-    <h1>Enter Website to Check Backlinks</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  body {
+    background: #f8fafc;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  /* Style for navbar specifically on this page */
+  nav {
+    position: relative; /* Allow positioning */
+    z-index: 10; /* Ensure it's above the hero background */
+    top: 40px; /* Push down slightly to center in blue area */
+    margin-bottom: 40px; /* Adjust spacing below nav */
+  }
+  .hero-bg {
+    width: 100vw;
+    min-height: 300px; /* Height of the blue background */
+    background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* Behind nav and content */
+    border-bottom-left-radius: 70px 30px;
+    border-bottom-right-radius: 70px 30px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  }
+  .background-svg {
+    position: absolute;
+    top: 40px;
+    left: -120px;
+    z-index: 1;
+    opacity: 0.13;
+    width: 700px;
+    pointer-events: none;
+    filter: blur(2px);
+    animation: floatBg 8s ease-in-out infinite alternate;
+  }
+  @keyframes floatBg {
+    0% { transform: scale(1) translateY(0); }
+    100% { transform: scale(1.08) translateY(30px); }
+  }
+  .backlink-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 70vh;
+    z-index: 2;
+    position: relative;
+    padding-top: 80px; /* Adjust based on nav position */
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.82);
+    border-radius: 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    padding: 2.8rem 2.5rem 2.2rem 2.5rem;
+    max-width: 410px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(180,210,255,0.28);
+    margin-top: 1.2rem;
+    animation: fadeSlideIn 1.1s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  @keyframes fadeSlideIn {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .backlink-animated-icon {
+    font-size: 2.8rem;
+    color: #007bff;
+    margin-bottom: 1.3rem;
+    background: linear-gradient(135deg, #e6f1ff 60%, #c2e9fb 100%);
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    animation: pulseIcon 1.8s infinite alternate;
+  }
+  @keyframes pulseIcon {
+    0% { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    100% { box-shadow: 0 8px 28px #b5e3ff88; }
+  }
+  .step-indicator {
+    font-size: 0.98rem;
+    color: #5a7fa7;
+    background: #eaf6ff;
+    border-radius: 1.1rem;
+    padding: 0.25rem 1.1rem;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    box-shadow: 0 2px 8px #eaf6ff80;
+  }
+  .backlink-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2374b6;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .backlink-subtitle {
+    font-size: 1.07rem;
+    color: #5a7fa7;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+  }
+  .keyword-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .input-group {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+  .keyword-form label {
+    font-weight: 600;
+    color: #2374b6;
+    margin-bottom: 0.2rem;
+    display: block;
+    transition: color 0.2s;
+  }
+  .info-tooltip {
+    position: absolute;
+    top: 50%;
+    right: 0.2rem;
+    transform: translateY(-50%);
+    background: #eaf6ff;
+    color: #007bff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 4px #b5e3ff40;
+  }
+  .info-tooltip:hover::after {
+    content: 'Enter your full domain, e.g., example.com';
+    position: absolute;
+    left: -8.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    color: #2374b6;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.7rem;
+    box-shadow: 0 2px 12px #b5e3ff40;
+    font-size: 0.96rem;
+    white-space: nowrap;
+    z-index: 20;
+    border: 1px solid #eaf6ff;
+  }
+  .keyword-form input[type="text"] {
+    padding: 0.7rem 1rem;
+    border-radius: 0.8rem;
+    border: 1.5px solid #c2d6ee;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    margin-bottom: 0.2rem;
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 1px 4px #eaf6ff33;
+  }
+  .keyword-form input[type="text"]:focus {
+    border: 1.5px solid #007bff;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.07);
+  }
+  .keyword-form button.btn {
+    background: linear-gradient(90deg, #00c6ff 0%, #007bff 100%);
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    border-radius: 1.2rem;
+    padding: 0.7rem 0;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.07);
+    transition: background 0.18s, transform 0.18s;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+  }
+  .keyword-form button.btn:hover {
+    background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+    transform: translateY(-2px) scale(1.03);
+  }
+  @media (max-width: 600px) {
+    .glass-card {
+      padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    }
+    .backlink-title {
+      font-size: 1.3rem;
+    }
+    .background-svg {
+      width: 380px;
+      top: 50px;
+      left: -50px;
+    }
+  }
+</style>
+<div class="hero-bg"></div>
+<svg class="background-svg" viewBox="0 0 600 600" fill="none"><path d="M 300 0 Q 400 100 600 100 Q 600 300 400 400 Q 300 600 100 400 Q 0 300 100 100 Q 200 0 300 0 Z" fill="#b5e3ff"/></svg>
+<div class="backlink-input-container">
+  <div class="glass-card">
+    <div class="step-indicator">Step 1: Enter Website</div>
+    <div class="backlink-animated-icon">
+      <i class="fas fa-link"></i>
+    </div>
+    <div class="backlink-title">Backlink Analysis</div>
+    <div class="backlink-subtitle">Analyze your website’s backlink profile instantly. Enter your domain below to get started!</div>
     <form action="/get_backlinks" method="post" class="keyword-form">
-        <label for="website">Website:</label>
+      <div class="input-group">
+        <label for="website">Website</label>
+        <span class="info-tooltip"><i class="fas fa-info"></i></span>
         <input type="text" id="website" name="website" placeholder="e.g., example.com" required>
-        <button type="submit" class="btn">Submit</button>
-
+      </div>
+      <button type="submit" class="btn">Analyze</button>
     </form>
-
-
-
+  </div>
+</div>
+<script>
+  // Animate card and focus
+  window.addEventListener('DOMContentLoaded', () => {
+    const card = document.querySelector('.glass-card');
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(40px)';
+    setTimeout(() => {
+      card.style.opacity = 1;
+      card.style.transform = 'translateY(0)';
+    }, 150);
+  });
+</script>
 {% endblock %}
