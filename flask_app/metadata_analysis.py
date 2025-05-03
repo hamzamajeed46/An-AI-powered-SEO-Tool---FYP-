@@ -105,7 +105,7 @@ def metadata_recommendations(client_metadata):
 
             # If user is logged in, update the most recent metadata document
             db.metadata.update_one(
-                {"url:": client_metadata["url"]},
+                {"email:": session["email"]},
                 {"$set": {"recommendations": recommendations_html}},
                 sort=[("_id", -1)]  # Sort by latest inserted document
             )

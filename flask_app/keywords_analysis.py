@@ -25,7 +25,7 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
     querystring = {"keyword": keyword, "se": search_engine, "country": country}
 
     headers = {
-        "x-rapidapi-key": os.getenv('API_KEY2'),  # Fetch API key from environment variable
+        "x-rapidapi-key": os.getenv('API_KEY4'),  # Fetch API key from environment variable
         "x-rapidapi-host": "ahrefs2.p.rapidapi.com"
     }
 

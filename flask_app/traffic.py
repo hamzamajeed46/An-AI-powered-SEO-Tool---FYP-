@@ -10,7 +10,7 @@ from backlinks import get_db_connection  # Assuming you have this function to ge
 # API Details
 API_URL = "https://ahrefs1.p.rapidapi.com/traffic"
 HEADERS = {
-    "x-rapidapi-key": os.getenv('API_KEY3'),
+    "x-rapidapi-key": os.getenv('API_KEY4'),
     "x-rapidapi-host": "ahrefs1.p.rapidapi.com"
 }
 

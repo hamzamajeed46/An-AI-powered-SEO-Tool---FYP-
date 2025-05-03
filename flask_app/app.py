@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from flask import session
+from flask import Flask, render_template, request, redirect, url_for
+from flask import session, send_file
 import zlib
 import base64
 import json
@@ -13,6 +13,7 @@ from keywords_analysis import fetch_keyword_suggestions
 from compare_traffic import fetch_traffic_data, generate_llm_comparison_insights
 from signin import login_route, signup_route
 from compare_metadata import compare_metadata2, generate_comparison_recommendations
+from report import create_seo_report
 
 app = Flask(__name__)
 
@@ -303,6 +304,20 @@ def compare_traffic():
                                insights=insights)
 
     return render_template("compare_traffic.html")
+
+
+@app.route("/report")
+def report():
+    return render_template("report.html")
+
+
+@app.route('/download-report', methods=['GET'])
+def download_report():
+    website = request.args.get("website")
+    keyword = request.args.get("keyword")
+    if not website:
+        return "Website parameter is required", 400
+    return create_seo_report(website)
 
 if __name__ == '__main__':
     app.run(debug=True)
