@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Generated Blog for {{ keyword }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Blog for Keyword: {{ keyword }}</h1>
+        
+
+        <div class="blog-content">
+            {{ blog_content | safe }}
+        </div>
+
+        {% if image_url %}
+        <img src="{{ image_url }}" alt="Blog image for {{ keyword }}" class="blog-image">
+
+        {% endif %}
+
+        <a href="/keyword_input">Analyze Another Keyword</a>
+    </div>
+
+<style>
+    img.blog-image {
+        max-width: 600px;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+    
+{% endblock %}

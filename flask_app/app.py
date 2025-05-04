@@ -9,11 +9,12 @@ from compitator import find_compitators,compare_backlinks
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations
 from traffic import get_traffic_history, traffic_insights
-from keywords_analysis import fetch_keyword_suggestions
+from keywords_analysis import fetch_keyword_suggestions, generate_blog_from_keyword, fetch_unsplash_image
 from compare_traffic import fetch_traffic_data, generate_llm_comparison_insights
 from signin import login_route, signup_route
 from compare_metadata import compare_metadata2, generate_comparison_recommendations
 from report import create_seo_report
+
 
 app = Flask(__name__)
 
@@ -128,7 +129,8 @@ def backlinks():
 
 @app.route('/backlink_recommendations')
 def backlink_recommendations():
-    data = decompress_data(session.pop('backlinks_data', None))  # Retrieve the backlinks data from session
+    backlinks_data = session['backlinks_data']
+    data = decompress_data(backlinks_data)  # Retrieve the backlinks data from session
 
     if not data:
         return "Error: No backlinks data found."
@@ -217,6 +219,21 @@ def keyword_analysis():
     
 
     return render_template("keyword_result.html", results=results)
+@app.route("/generate_blog", methods=["POST"])
+def generate_blog():
+    keyword = request.form.get("keyword")
+
+    if not keyword:
+        return render_template("keyword_result.html", error="Keyword is required.")
+
+    prompt = f"Write a detailed SEO-optimized blog post about '{keyword}' with subheadings."
+
+    try:
+        blog_html = generate_blog_from_keyword(prompt, keyword)  # Use your LLM function here
+        image_url = fetch_unsplash_image(keyword)
+        return render_template("blog_result.html", blog_content=blog_html, image_url=image_url, keyword=keyword)
+    except Exception as e:
+        return render_template("keyword_result.html", error=f"Error: {str(e)}")
 
 
 

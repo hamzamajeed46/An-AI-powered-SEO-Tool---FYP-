@@ -3,7 +3,8 @@ from config import Config
 import os
 from datetime import datetime
 import pycountry
-from backlinks import get_db_connection  
+from langchain_groq import ChatGroq
+from backlinks import beautify_markdown_to_html, get_db_connection  
 
 db = get_db_connection()  # Replace with your specific database name
 keywords_collection = db.keywords  
@@ -62,3 +63,38 @@ def get_country_code(country_name):
         return pycountry.countries.lookup(country_name).alpha_2
     except LookupError:
         return None
+
+def generate_blog_from_keyword(prompt, keyword):
+    llm = ChatGroq(
+    temperature=0,
+    groq_api_key= Config.LLM_API,
+    model_name="llama-3.3-70b-versatile"
+    )
+    # Call the LLM API (similar to your metadata_recommendations function)
+    try:
+        response = llm.invoke(prompt)
+        if response:
+            return beautify_markdown_to_html(response.content, title="Blog for Keyword: " + keyword)
+        else:
+            return "No content generated."
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+
+def fetch_unsplash_image(keyword):
+    access_key = os.getenv("access_key")
+    url = "https://api.unsplash.com/search/photos"
+    params = {
+        "query": keyword,
+        "per_page": 1,
+        "orientation": "landscape",
+        "client_id": access_key
+    }
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            return data["results"][0]["urls"]["regular"]
+    return None

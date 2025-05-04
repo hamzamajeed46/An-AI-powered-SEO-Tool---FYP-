@@ -3,6 +3,10 @@
 {% block title %}Keywords Analysis{% endblock %}
 
 {% block content %}
+
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
     <div class="container">
         <h1>Keyword Analysis Results</h1>
 
@@ -24,9 +28,15 @@
                             <td>{{ idea.keyword }}</td>
                             <td>{{ idea.difficulty }}</td>
                             <td>{{ idea.volume }}</td>
+                            <td>
+                                <form action="/generate_blog" method="POST">
+                                    <input type="hidden" name="keyword" value="{{ idea.keyword }}">
+                                    <button class = "btn" type="submit">Generate Blog</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
-                </tbody>
+                </tbody>                
             </table>
 
             <h2>Related Questions</h2>
@@ -54,4 +64,45 @@
     </div>
 
     
+<style>
+    #loader {
+      position: fixed;
+      z-index: 9999;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    body.loaded #loader {
+      display: none;
+    }
+
+    body:not(.loaded) #content {
+      display: none;
+    }
+</style>    
+    
+<script>
+    // Hide loader as soon as DOM is ready
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.classList.add("loaded");
+    });
+</script>
+
 {% endblock %}
