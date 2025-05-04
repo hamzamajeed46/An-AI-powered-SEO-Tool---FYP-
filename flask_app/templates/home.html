@@ -3,280 +3,851 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-Powered SEO Insights</title>
+  <title>AI SEO | AI-Powered SEO Analytics</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
+    /* Dark Theme Styles */
+    .dark-theme {
+      --primary: #818cf8;
+      --primary-dark: #6366f1;
+      --primary-light: #a5b4fc;
+      --secondary: #10b981;
+      --dark: #f8fafc;
+      --light: #1e293b;
+      --gray: #94a3b8;
+      --gray-light: #334155;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      --card-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -4px rgba(255, 255, 255, 0.1);
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --gray-light: #e2e8f0;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
       margin: 0;
       padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      box-sizing: border-box;
     }
-    .hero-section {
-      background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
-      color: #fff;
-      padding: 5rem 2rem 3rem 2rem;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      border-radius: 0 0 2.5rem 2.5rem;
-      animation: fadeSlideIn 1.1s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .hero-section h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      letter-spacing: 1px;
-    }
-    .hero-section p {
-      font-size: 1.3rem;
-      font-weight: 400;
-      margin-bottom: 2.5rem;
-      color: #e3f0ff;
-    }
-    .cta-btn {
-      padding: 1rem 2.5rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 2rem;
-      background: linear-gradient(90deg, #00c6ff 0%, #007bff 100%);
-      color: #fff;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .cta-btn:hover {
-      background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
-      transform: translateY(-2px) scale(1.03);
-    }
-    .features-section {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 2rem;
-      padding: 3rem 2rem 2rem 2rem;
-      max-width: 1100px;
-      margin: 2.5rem auto 2rem auto;
-      z-index: 2;
-      position: relative;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s, transform 0.7s;
-    }
-    .features-section.animated {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .feature-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      border-radius: 1.5rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-      border: 1.5px solid #e4eafe;
-      padding: 1.1rem 0.5rem 1rem 0.5rem;
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #007bff;
-      text-decoration: none;
-      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s, background 0.18s;
-      min-width: 120px;
-      min-height: 90px;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(30px) scale(0.96);
-      animation: fadeSlideIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-    }
-    .feature-btn i {
-      font-size: 1.5rem;
-      margin-bottom: 0.3rem;
-      color: #007bff;
-    }
-    .feature-btn span {
-      font-size: 1rem;
-      color: #222;
-      font-weight: 600;
-      margin-top: 0.1rem;
-    }
-    .feature-btn:hover {
-      transform: translateY(-3px) scale(1.06);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
-      border-color: #00c6ff;
-      background: #f4faff;
-      color: #007bff;
-      text-decoration: none;
-    }
-    .footer {
-      background: #f0f4f8;
-      color: #666;
-      text-align: center;
-      padding: 1.2rem 0 0.6rem 0;
-      font-size: 1rem;
-      margin-top: auto;
-      border-top: 1px solid #e4eafe;
-    }
-    .top-nav {
+    
+    .container {
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding: 1.2rem 2rem 0 2rem;
-      background: transparent;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    /* Header & Navigation */
+    header {
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 10;
+      width: 100%;
+      z-index: 50;
+      padding: 1.5rem 0;
     }
-    .nav-right {
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: white;
+      text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: 0.5rem;
     }
-    .user-greeting {
-      font-weight: 600;
-      color: #fff;
-      margin-right: 0.5rem;
+    
+    .logo-icon {
+      font-size: 2rem;
+      color: var(--secondary);
     }
-    .btn {
-      padding: 0.6rem 1.3rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-      border: none;
-      outline: none;
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9);
       text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+      font-size: 1rem;
     }
+    
+    .nav-link:hover {
+      color: white;
+    }
+    
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-left: 2rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
     .btn-primary {
-      background: linear-gradient(90deg, #00c6ff 0%, #007bff 100%);
-      color: #fff;
+      background: white;
+      color: var(--primary-dark);
       border: none;
     }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
     .btn-outline {
       background: transparent;
-      color: #fff;
-      border: 2px solid #fff;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
+    
     .btn-outline:hover {
-      background: #fff;
-      color: #007bff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
     }
-    .theme-toggle-btn {
-      position: fixed;
-      top: 1.5rem;
-      right: 2rem;
-      background: #fff;
-      color: #007bff;
-      border: 2px solid #e4eafe;
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 12rem 0 8rem;
+      background: var(--gradient);
+      color: white;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .hero-content {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+    
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+      border: none;
+    }
+    
+    .btn-secondary:hover {
+      background: #0ea271;
+      transform: translateY(-2px);
+    }
+    
+    .hero-image {
+      width: 100%;
+      max-width: 900px;
+      margin: 3rem auto 0;
+      border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transform: perspective(1000px) rotateX(5deg);
+      transition: var(--transition);
+    }
+    
+    .hero-image:hover {
+      transform: perspective(1000px) rotateX(0deg);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 6rem 0;
+      background: white;
+    }
+    
+    .features-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4rem;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .section-desc {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .feature-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.2rem;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      border: 1px solid var(--gray-light);
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      font-size: 1.3rem;
+    }
+    
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--dark);
+    }
+    
+    .feature-desc {
+      color: var(--gray);
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      text-align: left;
+    }
+    
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    
+    .feature-link:hover {
+      color: var(--primary-dark);
+      gap: 0.75rem;
+    }
+    
+    /* Stats Section */
+    .stats {
+      padding: 4rem 0;
+      background: var(--dark);
+      color: white;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    
+    .stat-number {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: white;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-about {
+      color: var(--gray-light);
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-link {
+      margin-bottom: 1rem;
+    }
+    
+    .footer-link a {
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-link a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .copyright {
+      color: var(--gray-light);
+      font-size: 0.875rem;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      font-size: 1.2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      cursor: pointer;
-      z-index: 100;
-      transition: background 0.2s, color 0.2s;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: var(--transition);
     }
-    .theme-toggle-btn:hover {
-      background: #007bff;
-      color: #fff;
+    
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
     }
-    @keyframes fadeSlideIn {
-      0% {
+    
+    /* Dropdown styles */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 220px;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        z-index: 100;
+    }
+    
+    .dropdown:hover .dropdown-menu {
         opacity: 1;
+        visibility: visible;
         transform: translateY(0);
+    }
+    
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        color: var(--dark);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--primary);
+    }
+    
+    .dropdown-item i {
+        width: 20px;
+        text-align: center;
+    }
+    
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .dropdown-toggle i {
+        font-size: 0.75rem;
+        transition: transform 0.2s ease;
+    }
+    
+    .dropdown:hover .dropdown-toggle i {
+        transform: rotate(180deg);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 2.75rem;
       }
     }
-    @media (max-width: 700px) {
-      .hero-section h1 { font-size: 2.1rem; }
-      .features-section { grid-template-columns: 1fr; padding: 2rem 1rem; }
-      .top-nav { padding: 1rem 1rem 0 1rem; }
+    
+    @media (max-width: 768px) {
+      .hero {
+        padding: 8rem 0 4rem;
+      }
+      
+      .hero-title {
+        font-size: 2.25rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .feature-card {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">🌙</button>
-  <header class="hero-section">
-    <nav class="top-nav">
-      <div class="nav-right">
-        {% if 'user_id' in session %}
-          <span class="user-greeting">Welcome, {{ session['username'] }}!</span>
-          <a href="{{ url_for('logout') }}" class="btn btn-outline">Log Out</a>
-        {% else %}
-          <a href="{{ url_for('login') }}" class="btn btn-outline">Sign In</a>
-          <a href="{{ url_for('signup') }}" class="btn btn-primary">Sign Up</a>
-        {% endif %}
-      </div>
-    </nav>
-    <h1>AI-Powered SEO Insights</h1>
-    <p>Unlock your website's full potential with advanced, actionable SEO analytics and recommendations powered by AI.</p>
-    <a href="{{ url_for('backlinks') }}" class="cta-btn">Analyze My Website</a>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+          <i class="fas fa-brain logo-icon"></i>
+          <span>AI SEO</span>
+        </a>
+        <div class="nav-links">
+          <div class="dropdown">
+            <a href="{{ url_for('backlinks') }}" class="nav-link dropdown-toggle">Features <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-menu">
+              <a href="{{ url_for('backlinks') }}" class="dropdown-item"><i class="fas fa-link"></i> Backlink Analysis</a>
+              <a href="{{ url_for('keyword_input') }}" class="dropdown-item"><i class="fas fa-search"></i> Keyword Insights</a>
+              <a href="{{ url_for('compitator') }}" class="dropdown-item"><i class="fas fa-users"></i> Competitor Analysis</a>
+              <a href="{{ url_for('traffic_input') }}" class="dropdown-item"><i class="fas fa-chart-line"></i> Traffic Trends</a>
+              <a href="{{ url_for('metadata') }}" class="dropdown-item"><i class="fas fa-tags"></i> Metadata Analysis</a>
+              <a href="{{ url_for('report') }}" class="dropdown-item"><i class="fas fa-robot"></i> AI Reports</a>
+            </div>
+          </div>
+          <a href="#" class="nav-link">Solutions</a>
+          <a href="#" class="nav-link">Pricing</a>
+          <a href="#" class="nav-link">Resources</a>
+        </div>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+            <a href="{{ url_for('logout') }}" class="btn btn-outline">Log Out</a>
+          {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-outline">Sign In</a>
+            <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started</a>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <section class="features-section">
-    <a href="{{ url_for('backlinks') }}" class="feature-btn">
-      <i class="fas fa-link"></i>
-      <span>Backlink Analysis</span>
-    </a>
-    <a href="{{ url_for('keyword_input') }}" class="feature-btn">
-      <i class="fas fa-search"></i>
-      <span>Keyword Insights</span>
-    </a>
-    <a href="{{ url_for('compitator') }}" class="feature-btn">
-      <i class="fas fa-users"></i>
-      <span>Competitor Comparison</span>
-    </a>
-    <a href="{{ url_for('traffic_input') }}" class="feature-btn">
-      <i class="fas fa-chart-line"></i>
-      <span>Traffic Trends</span>
-    </a>
-    <a href="{{ url_for('metadata') }}" class="feature-btn">
-      <i class="fas fa-tags"></i>
-      <span>Metadata Analysis</span>
-    </a>
-    <a href="{{ url_for('report') }}" class="feature-btn">
-      <i class="fas fa-robot"></i>
-      <span>AI Reports</span>
-    </a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content animate">
+        <h1 class="hero-title">AI-Powered SEO Intelligence for Modern Marketers</h1>
+        <p class="hero-subtitle">Unlock your website's full potential with advanced, actionable SEO analytics and recommendations powered by cutting-edge artificial intelligence.</p>
+        <div class="cta-buttons">
+          <a href="{{ url_for('backlinks') }}" class="btn btn-lg btn-primary">
+            <i class="fas fa-rocket"></i>
+            Start Analyzing
+          </a>
+        </div>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="SEO Analytics Dashboard" class="hero-image">
+      </div>
+    </div>
   </section>
 
-  <footer class="footer">
-    &copy; {{ 2025 }} AI-Powered SEO Tool &mdash; <a href="{{ url_for('home') }}">Home</a> | <a href="{{ url_for('backlinks') }}">Backlinks</a> | <a href="{{ url_for('keyword_input') }}">Keywords</a> | <a href="{{ url_for('compitator') }}">Competitors</a>
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="features-header" data-aos="fade-up">
+        <h2 class="section-title">Comprehensive SEO Toolkit</h2>
+        <p class="section-desc">All-in-one solution to boost your website's performance and outrank competitors.</p>
+      </div>
+      <div class="features-grid" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-link"></i>
+          </div>
+          <h3 class="feature-title">Backlink Analysis</h3>
+          <p class="feature-desc">Discover your backlink profile and identify high-quality linking opportunities to boost your domain authority.</p>
+          <a href="{{ url_for('backlinks') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3 class="feature-title">Keyword Insights</h3>
+          <p class="feature-desc">Uncover high-value keywords with detailed search volume, difficulty, and opportunity metrics.</p>
+          <a href="{{ url_for('keyword_input') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3 class="feature-title">Competitor Intelligence</h3>
+          <p class="feature-desc">Analyze competitors' strategies to identify gaps and opportunities in your own SEO approach.</p>
+          <a href="{{ url_for('compitator') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Traffic Analytics</h3>
+          <p class="feature-desc">Track organic traffic trends and identify patterns to optimize your content strategy.</p>
+          <a href="{{ url_for('traffic_input') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <i class="fas fa-tags"></i>
+          </div>
+          <h3 class="feature-title">Metadata Optimization</h3>
+          <p class="feature-desc">Get AI-powered suggestions to improve your meta titles and descriptions for better CTR.</p>
+          <a href="{{ url_for('metadata') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3 class="feature-title">AI-Powered Reports</h3>
+          <p class="feature-desc">Automatically generate comprehensive SEO reports with actionable recommendations.</p>
+          <a href="{{ url_for('report') }}" class="feature-link">
+            Analyze <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item animate">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Websites Analyzed</div>
+        </div>
+        <div class="stat-item animate delay-1">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Customer Satisfaction</div>
+        </div>
+        <div class="stat-item animate delay-2">
+          <div class="stat-number">3.2M</div>
+          <div class="stat-label">Keywords Tracked</div>
+        </div>
+        <div class="stat-item animate delay-3">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">AI Monitoring</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="{{ url_for('home') }}" class="footer-logo">
+            <i class="fas fa-brain"></i>
+            <span>AI SEO</span>
+          </a>
+          <p class="footer-about">The most advanced AI-powered SEO platform helping businesses grow their organic traffic and search visibility.</p>
+          <div class="social-links">
+            <a href="https://twitter.com/AI_SEO_Tool" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/ai-seo-tool" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/AI-SEO-Tool" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/ai_seo_tool" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Product</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="{{ url_for('backlinks') }}">Features</a></li>
+            <li class="footer-link"><a href="{{ url_for('keyword_input') }}">Pricing</a></li>
+            <li class="footer-link"><a href="{{ url_for('compitator') }}">Integrations</a></li>
+            <li class="footer-link"><a href="{{ url_for('traffic_input') }}">API</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="/blog">Blog</a></li>
+            <li class="footer-link"><a href="/guides">Guides</a></li>
+            <li class="footer-link"><a href="/webinars">Webinars</a></li>
+            <li class="footer-link"><a href="/help">Help Center</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="/about">About Us</a></li>
+            <li class="footer-link"><a href="/careers">Careers</a></li>
+            <li class="footer-link"><a href="/contact">Contact</a></li>
+            <li class="footer-link"><a href="/legal">Legal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2025 AI SEO. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="/privacy" class="footer-link">Privacy Policy</a>
+          <a href="/terms" class="footer-link">Terms of Service</a>
+          <a href="/cookies" class="footer-link">Cookies</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
-    // Theme toggle (optional, if you have dark mode support)
-    const themeToggle = document.getElementById('theme-toggle');
+    // Animation observer
+    const animateElements = document.querySelectorAll('.animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    animateElements.forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Theme toggle
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle-btn';
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    themeToggle.title = 'Toggle Dark Mode';
+    document.body.appendChild(themeToggle);
+    
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-theme');
-      themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+      if (document.body.classList.contains('dark-theme')) {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
     });
-
-    // Animation for feature buttons
-    window.addEventListener('DOMContentLoaded', () => {
-      const featuresSection = document.querySelector('.features-section');
-      const featureBtns = document.querySelectorAll('.feature-btn');
-      featuresSection.classList.add('animated');
-      featureBtns.forEach((btn, idx) => {
-        btn.style.animationDelay = (0.25 + idx * 0.12) + 's';
-        btn.style.opacity = '1';
-      });
-    });
+    
+    // Add dark theme styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .dark-theme {
+        --dark: #f8fafc;
+        --light: #1e293b;
+        --gray: #94a3b8;
+        --gray-light: #334155;
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+      
+      .dark-theme .features,
+      .dark-theme .feature-card {
+        background-color: #1e293b;
+        border-color: #334155;
+      }
+      
+      .dark-theme .feature-title,
+      .dark-theme .section-title {
+        color: white;
+      }
+      
+      .dark-theme .feature-desc,
+      .dark-theme .section-desc {
+        color: #94a3b8;
+      }
+      
+      .dark-theme .theme-toggle-btn {
+        background: var(--primary);
+        color: white;
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
