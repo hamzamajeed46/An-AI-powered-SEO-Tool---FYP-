@@ -1,18 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}Generate Report{% endblock %}
+{% block title %}Generate SEO Report{% endblock %}
 
 {% block content %}
+<section class="section hero" id="report-generation" style="padding: 6rem 0 4rem; min-height: calc(100vh - 200px); background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); overflow: hidden;">
+  <div class="container" style="max-width: 1440px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1;">
+    <div class="hero-content" style="text-align: center; margin-bottom: 4rem; animation: fadeInDown 0.8s ease-out; position: relative;">
+      <h1 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 3.5rem; font-weight: 800; background: linear-gradient(to right, #fff, #ddd); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; margin-bottom: 1rem; letter-spacing: -1px; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        Generate SEO Report
+      </h1>
+      <p class="hero-desc" style="color: rgba(255,255,255,0.9); font-size: 1.25rem; max-width: 800px; margin: 0 auto; line-height: 1.6; font-weight: 400;">
+        Create comprehensive SEO reports to gain deep insights into your website's performance and optimization potential.
+      </p>
+    </div>
+    <div class="hero-form-card" style="max-width: 800px; margin: 0 auto; background: white; border-radius: 1.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.15); overflow: hidden; animation: fadeInUp 0.8s ease-out 0.2s backwards; padding: 0.5rem;">
+      <form method="get" action="/download-report" class="form" style="padding: 3rem 2.5rem;">
+        <div class="form-group" style="margin-bottom: 2rem;">
+          <label for="website" style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--dark); font-size: 1.1rem; position: relative;">
+            Website URL <span style="color: #ff4d4d; position: absolute; right: 0; font-size: 0.9rem;">* Required</span>
+          </label>
+          <input type="text" id="website" name="website" class="form-input" style="width: 100%; padding: 1rem 1.75rem; border: 1px solid var(--gray-light); border-radius: 1rem; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); background-color: rgba(255,255,255,0.95);" placeholder="https://example.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 2rem;">
+          <label for="keyword" style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: var(--dark); font-size: 1.1rem; position: relative;">
+            Focus Keyword <span style="color: #ff4d4d; position: absolute; right: 0; font-size: 0.9rem;">* Required</span>
+          </label>
+          <input type="text" id="keyword" name="keyword" class="form-input" style="width: 100%; padding: 1rem 1.75rem; border: 1px solid var(--gray-light); border-radius: 1rem; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); background-color: rgba(255,255,255,0.95);" placeholder="Enter your target keyword" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="background: linear-gradient(to right, #6366f1, #818cf8); border: none; color: white; padding: 1rem 2.5rem; border-radius: 1rem; font-size: 1.2rem; font-weight: 700; width: 100%; box-shadow: 0 8px 16px rgba(99,102,241,0.3); position: relative; overflow: hidden; letter-spacing: 0.5px;">
+          <span style="position: relative; z-index: 1;">Generate Report</span>
+          <span style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(99,102,241,0.2), rgba(129,140,248,0.2)); opacity: 0; transition: opacity 0.3s ease; z-index: 0;"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="hero-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; opacity: 0.1; pointer-events: none;">
+    <svg width="404" height="404" fill="none" viewBox="0 0 404 404" style="position: absolute; top: 10%; right: 0; color: #fff;">
+      <defs>
+        <pattern id="report-pattern-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" />
+        </pattern>
+      </defs>
+      <rect width="404" height="404" fill="url(#report-pattern-1)" />
+    </svg>
+    <svg width="404" height="404" fill="none" viewBox="0 0 404 404" style="position: absolute; bottom: 10%; left: 0; color: #fff;">
+      <defs>
+        <pattern id="report-pattern-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" />
+        </pattern>
+      </defs>
+      <rect width="404" height="404" fill="url(#report-pattern-2)" />
+    </svg>
+  </div>
+</section>
 
-<h2>Generate SEO Report</h2>
-<form method="get" action="/download-report" class="keyword-form">
-    <label for="website">Website:</label>
-    <input type="text" id="website" name="website" placeholder="example.com" required>
-
-    <label for="keyword">Keyword:</label>
-    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword" required>
-
-    <button type="submit" class="btn">Submit</button>
-</form>
+<style>
+  @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px);} to { opacity:1; transform:translateY(0);} }
+  @keyframes fadeInUp   { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+  .btn-primary:hover span:last-child { opacity:1; }
+  .form-input:focus { border-color: rgba(99,102,241,0.5); box-shadow: 0 0 0 3px rgba(99,102,241,0.2); outline:none; }
+  @media (max-width:768px) {
+    .hero-content h1 { font-size:2.5rem; }
+    .hero-content p  { font-size:1.1rem; }
+  }
+</style>
 
 {% endblock %}

@@ -3,20 +3,70 @@
 {% block title %}Competitor Analysis{% endblock %}
 
 {% block content %}
-
-
-    <h1>Competitor Analysis</h1>
-    <a href="{{ url_for('find_compitator') }}">
-        <button class="btn btn-primary">Find My Competitor</button>
-    </a>
-
-    <div class="btn-group">
-        <a href="{{ url_for('compare_metadata') }}" class="btn btn-primary">Compare Metadata</a>
-        <a href="{{ url_for('compare_traffic') }}" class="btn btn-secondary">Compare Traffic</a>
-        <a href="{{ url_for('compare_backlinks_route') }}" class="btn btn-primary">Compare Backlinks</a>
-        <a href="#3" class="btn btn-secondary">Compare SEO</a>
-        
+<section class="section hero" id="competitor-analysis" style="padding: 6rem 0 4rem; min-height: calc(100vh - 200px); background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); overflow: hidden;">
+  <div class="container" style="max-width: 1440px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1;">
+    <div class="hero-content" style="text-align: center; margin-bottom: 4rem; animation: fadeInDown 0.8s ease-out; position: relative;">
+      <h1 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 3.5rem; font-weight: 800; background: linear-gradient(to right, #fff, #ddd); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; margin-bottom: 1rem; letter-spacing: -1px; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        Competitor Analysis
+      </h1>
+      <p class="hero-desc" style="color: rgba(255,255,255,0.9); font-size: 1.25rem; max-width: 800px; margin: 0 auto; line-height: 1.6; font-weight: 400;">
+        Gain strategic insights by analyzing and comparing your website's performance against your competitors.
+      </p>
     </div>
-    
+
+    <div class="competitor-actions" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
+      <a href="{{ url_for('find_compitator') }}" class="btn btn-primary" style="background: linear-gradient(to right, #6366f1, #818cf8); border: none; color: white; padding: 1rem 2.5rem; border-radius: 1rem; font-size: 1.2rem; font-weight: 700; box-shadow: 0 8px 16px rgba(99,102,241,0.3); position: relative; overflow: hidden; letter-spacing: 0.5px; text-decoration: none; display: inline-block; transition: transform 0.3s ease;">
+        <span style="position: relative; z-index: 1;">Find My Competitor</span>
+        <span style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(99,102,241,0.2), rgba(129,140,248,0.2)); opacity: 0; transition: opacity 0.3s ease; z-index: 0;"></span>
+      </a>
+
+      <div class="btn-group" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+        <a href="{{ url_for('compare_metadata') }}" class="btn btn-secondary" style="background: white; color: #4b5563; border: 1px solid #e5e7eb; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          Compare Metadata
+        </a>
+        <a href="{{ url_for('compare_traffic') }}" class="btn btn-secondary" style="background: white; color: #4b5563; border: 1px solid #e5e7eb; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          Compare Traffic
+        </a>
+        <a href="{{ url_for('compare_backlinks_route') }}" class="btn btn-secondary" style="background: white; color: #4b5563; border: 1px solid #e5e7eb; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          Compare Backlinks
+        </a>
+        <a href="#3" class="btn btn-secondary" style="background: white; color: #4b5563; border: 1px solid #e5e7eb; padding: 1rem 2rem; border-radius: 1rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          Compare SEO
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; opacity: 0.1; pointer-events: none;">
+    <svg width="404" height="404" fill="none" viewBox="0 0 404 404" style="position: absolute; top: 10%; right: 0; color: #fff;">
+      <defs>
+        <pattern id="competitor-pattern-1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" />
+        </pattern>
+      </defs>
+      <rect width="404" height="404" fill="url(#competitor-pattern-1)" />
+    </svg>
+    <svg width="404" height="404" fill="none" viewBox="0 0 404 404" style="position: absolute; bottom: 10%; left: 0; color: #fff;">
+      <defs>
+        <pattern id="competitor-pattern-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="4" height="4" fill="currentColor" />
+        </pattern>
+      </defs>
+      <rect width="404" height="404" fill="url(#competitor-pattern-2)" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px);} to { opacity:1; transform:translateY(0);} }
+  @keyframes fadeInUp   { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+  .btn-primary:hover span:last-child { opacity:1; }
+  .btn-secondary:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+  @media (max-width:768px) {
+    .hero-content h1 { font-size:2.5rem; }
+    .hero-content p  { font-size:1.1rem; }
+    .btn-group { flex-direction: column; width: 100%; }
+    .btn-group a { width: 100%; text-align: center; }
+  }
+</style>
 
 {% endblock %}

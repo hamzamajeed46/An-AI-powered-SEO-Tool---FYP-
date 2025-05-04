@@ -1,20 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | AI SEO</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Shared styles with signup page */
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #94a3b8;
+      --gray-light: #e2e8f0;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .auth-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .auth-hero {
+      flex: 1;
+      background: var(--gradient);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .auth-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .auth-hero-content {
+      max-width: 500px;
+      z-index: 2;
+      text-align: center;
+    }
+    
+    .auth-hero-content h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .auth-hero-content p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-form-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .auth-form {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--gray-light);
+    }
+    
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: var(--primary-dark);
+    }
+    
+    .auth-logo i {
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-right: 0.5rem;
+    }
+    
+    .auth-form h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+    
+    .btn-block {
+      width: 100%;
+      display: flex;
+    }
+    
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--gray);
+    }
+    
+    .auth-footer a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .auth-footer a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .forgot-password a {
+      color: var(--gray);
+      transition: var(--transition);
+    }
+    
+    .forgot-password a:hover {
+      color: var(--primary);
+    }
+    
+    @media (min-width: 768px) {
+      .auth-hero {
+        display: flex;
+      }
+    }
+    
+    /* Dark Mode */
+    .dark-theme .auth-form {
+      background: #1e293b;
+      border-color: #334155;
+    }
+    
+    .dark-theme .auth-form h2,
+    .dark-theme .form-group label {
+      color: white;
+    }
+    
+    .dark-theme .form-control {
+      background: #334155;
+      border-color: #475569;
+      color: white;
+    }
+    
+    .dark-theme .form-control:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+    }
+    
+    .dark-theme .auth-footer {
+      color: var(--gray-light);
+    }
+    
+    .dark-theme .forgot-password a {
+      color: var(--gray-light);
+    }
+  </style>
 </head>
 <body>
-    <h2>Sign In</h2>
-    <form class="keyword-form" method="POST">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required><br>
-        <button type="submit">Sign In</button>
-    </form>
-    <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+  <div class="auth-container">
+    <div class="auth-hero">
+      <div class="auth-hero-content">
+        <h2>Welcome Back</h2>
+        <p>Sign in to access your SEO analytics dashboard and continue optimizing your website's performance.</p>
+        <div class="features-list">
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i> Track your progress
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i> Get new recommendations
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-check-circle"></i> Monitor competitors
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="auth-form-container">
+      <form method="POST" class="auth-form">
+        <div class="auth-logo">
+          <i class="fas fa-brain"></i>
+          <span>AI SEO</span>
+        </div>
+        <h2>Sign In to Your Account</h2>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control" required>
+          <div class="forgot-password">
+            <a href="#">Forgot password?</a>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+        
+        <div class="auth-footer">
+          Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Dark mode toggle (matches homepage functionality)
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) document.body.classList.add('dark-theme');
+    
+    // Form validation could be added here
+    document.querySelector('form').addEventListener('submit', function(e) {
+      // Add any client-side validation if needed
+    });
+  </script>
 </body>
 </html>
