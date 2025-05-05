@@ -3,89 +3,82 @@
 {% block title %}Backlinks Results{% endblock %}
 
 {% block content %}
-
-    <h1>Backlinks Results</h1>
+<section style="padding: 6rem 2rem 4rem; background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%); min-height: 100vh;">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    
+    <h1 style="font-size: 3rem; font-weight: 800; background: linear-gradient(to right, #fff, #e0e0e0); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; margin-bottom: 2rem;">
+      Backlinks Results
+    </h1>
 
     {% if error %}
-        <p style="color:red;">{{ error }}</p>
+      <p style="color:red;">{{ error }}</p>
     {% else %}
+      <div style="color: white; font-size: 1.2rem; margin-bottom: 2rem;">
         <p><strong>URL:</strong> {{ data.url }}</p>
-        <section class="metrics-section">
-            <h1>Backlink Metrics</h1>
-            <div class="metrics-container">
-              <div class="metric-card">
-                <h2>Total Backlinks</h2>
-                <p>{{ data.backlinks }}</p>
-              </div>
-              <div class="metric-card">
-                <h2>Referring Domains</h2>
-                <p>{{ data.refdomains }}</p>
-              </div>
-              <div class="metric-card">
-                <h2>dofollow Backlinks</h2>
-                <p>{{ data.dofollowBacklinks }}</p>
-              </div>
-            </div>
-        </section>
-        <section class="metrics-section">
-          <div class="metrics-container">
-              <div class="metric-card">
-                <h2>dofollow Domains</h2>
-                <p>{{ data.dofollowRefdomains }}</p>
-              </div>
+      </div>
 
-              <div class="metric-card">
-                <h2>Domain Rating</h2>
-                <p>{{ data.domainRating }}/100</p>
-              </div>
-
-              <div class="metric-card">
-                <h2>URL Rating</h2>
-                <p>{{ data.urlRating }}/100</p>
-              </div>
-
-
-            </div>
-        </section>
-        <h2>Backlinks List:</h2>
-        <div style="overflow-x: auto; max-width: 100%;">
-          
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 350px;">URL</th>
-                <th>Title</th>
-                <th>Domain Rating</th>
-                <th style="width: 200px;">Target URL</th>
-                <th>Anchor</th>
-                <th>Summary</th>
-                <th>Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for backlink in data.backlinksList %}
-              <tr>
-                <td style="word-break: break-all; max-width: 350px;">{{ backlink.url }}</td>
-                <td>{{ backlink.title }}</td>
-                <td>{{ backlink.domain_rating }}</td>
-                <td style="word-break: break-all; max-width: 200px;">{{ backlink.target_url }}</td>
-                <td>{{ backlink.anchor }}</td>
-                <td>{{ backlink.summary }}</td>
-                <td><a href="{{ backlink.link }}" target="_blank">Visit</a></td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+      <!-- Metrics Section -->
+      <section style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+        {% set metrics = [
+          ('Total Backlinks', data.backlinks),
+          ('Referring Domains', data.refdomains),
+          ('dofollow Backlinks', data.dofollowBacklinks),
+          ('dofollow Domains', data.dofollowRefdomains),
+          ('Domain Rating', data.domainRating ~ '/100'),
+          ('URL Rating', data.urlRating ~ '/100')
+        ] %}
+        {% for title, value in metrics %}
+        <div style="flex: 1 1 250px; background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); text-align: center;">
+          <h2 style="font-size: 1.2rem; font-weight: 600; color: #4f46e5; margin-bottom: 0.5rem;">{{ title }}</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; color: #111827;">{{ value }}</p>
         </div>
-        
-      
+        {% endfor %}
+      </section>
+
+      <!-- Backlinks List Section -->
+      <h2 style="color: white; font-size: 2rem; margin-bottom: 1rem;">Backlinks List</h2>
+      <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+        {% for backlink in data.backlinksList %}
+        <div style="background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 0.5rem;">
+          <div><strong>URL:</strong> <a href="{{ backlink.url }}" target="_blank" style="color: #4f46e5; word-break: break-all;">{{ backlink.url }}</a></div>
+          <div><strong>Title:</strong> {{ backlink.title }}</div>
+          <div><strong>Domain Rating:</strong> {{ backlink.domain_rating }}</div>
+          <div><strong>Target URL:</strong> <span style="word-break: break-all;">{{ backlink.target_url }}</span></div>
+          <div><strong>Anchor:</strong> {{ backlink.anchor }}</div>
+          <div><strong>Summary:</strong> {{ backlink.summary }}</div>
+          <div><strong>Link:</strong> <a href="{{ backlink.link }}" target="_blank" style="color: #4f46e5;">Visit</a></div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Recommendations Button -->
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="{{ url_for('backlink_recommendations') }}" class="btn" style="padding: 0.75rem 1.5rem; background-color: white; color: #4f46e5; border: 2px solid white; border-radius: 0.5rem; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='white';">
+          See Recommendations
+        </a>
+      </div>
+
     {% endif %}
-    <section>
+  </div>
+</section>
 
-      <a href="{{ url_for('backlink_recommendations') }}" class="btn btn-outline" target="_blank">See Recommendations</a>
+<!-- Loader Overlay -->
+<div id="loader-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; display: none; justify-content: center; align-items: center;">
+  <div class="loader" style="border: 5px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 5px solid #fff; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>
+</div>
 
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
 
-    </section>
-    
+<script>
+  // Show loader overlay when the form is being submitted
+  document.querySelector('form').addEventListener('submit', function() {
+    document.getElementById('loader-overlay').style.display = 'flex';
+  });
+</script>
 
 {% endblock %}
