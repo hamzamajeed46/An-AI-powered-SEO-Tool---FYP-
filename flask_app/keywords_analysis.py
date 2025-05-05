@@ -1,6 +1,8 @@
 import requests
 from config import Config
 import os
+import http.client
+import uuid
 from datetime import datetime
 import pycountry
 from langchain_groq import ChatGroq
@@ -81,20 +83,25 @@ def generate_blog_from_keyword(prompt, keyword):
         return f"Error: {str(e)}"
 
 
+import json
 
-def fetch_unsplash_image(keyword):
-    access_key = os.getenv("access_key")
-    url = "https://api.unsplash.com/search/photos"
-    params = {
-        "query": keyword,
-        "per_page": 1,
-        "orientation": "landscape",
-        "client_id": access_key
+def generate_image_from_keyword(prompt):
+    conn = http.client.HTTPSConnection("flux-api3.p.rapidapi.com")
+
+    payload = json.dumps({
+        "prompt": f"An image to add in blog post with topic of {prompt}"
+    })
+
+    headers = {
+        'x-rapidapi-key': os.getenv('API_KEY3'),
+        'x-rapidapi-host': "flux-api3.p.rapidapi.com",
+        'Content-Type': "application/json"
     }
 
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        data = response.json()
-        if data["results"]:
-            return data["results"][0]["urls"]["regular"]
-    return None
+    conn.request("POST", "/", payload, headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    result = json.loads(data.decode("utf-8"))
+    return result.get("image")  # Adjust the key according to actual API response
