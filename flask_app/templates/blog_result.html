@@ -11,17 +11,42 @@
             {{ blog_content | safe }}
         </div>
 
+        <div class="img-content">
+        <h3>Image you can add in the blog</h3>
+        
         {% if image_url %}
         <img src="{{ image_url }}" alt="Blog image for {{ keyword }}" class="blog-image">
 
         {% endif %}
-
+        </div> 
         <a href="/keyword_input">Analyze Another Keyword</a>
     </div>
 
 <style>
+    .img-content {
+        text-align: center;
+        margin: 40px auto;
+        max-width: 800px;
+    }
+
+    .img-content h2 {
+        font-size: 24px;
+        color: #2d4de0; /* A similar blue tone as the heading */
+        margin-bottom: 20px;
+    }
+
     img.blog-image {
-        max-width: 600px;
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    img.blog-image {
+        max-width: 250px;         /* Set a fixed width */
+        max-height: 330px; 
         width: 100%;
         height: auto;
         display: block;
