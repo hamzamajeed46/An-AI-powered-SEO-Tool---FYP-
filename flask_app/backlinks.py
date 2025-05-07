@@ -211,7 +211,7 @@ def beautify_markdown_to_html(content, title="Recommendations"):
     # Add the title as h3 if provided and not empty
     title_html = ""
     if title:
-        title_html = f'<h3 style="text-align: center; font-size: 1.5rem; font-weight: 800; color: #2563eb; margin-bottom: 24px; letter-spacing: 0.5px;">{title}</h3>'
+        title_html = f'<h3 style="text-align: center; font-size: 1.5rem; font-weight: 800; color: #645dec; margin-bottom: 24px; letter-spacing: 0.5px;">{title}</h3>'
 
     beautified_html = f"""
     <div style=\"font-family: 'Inter', 'Segoe UI', Arial, sans-serif; background: rgba(247,249,252,0.85); padding: 40px 0;\">

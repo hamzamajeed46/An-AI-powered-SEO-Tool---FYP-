@@ -1,40 +1,90 @@
 :root {
-    --primary-color: #1f5574;
-    --secondary-color: #224e62;
-    --background-color: #ecedee;
-    --background-color2: rgb(243, 251, 254);
-    --text-color: #0e1217;
-    --border-color: #c1d4ed;
-    --shadow:rgba(0,0,0,0.1);
-    --text-color2: #0e1217;
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --accent-color: #2ecc71;
+    --background-color: #f4f6f7;
+    --background-color2: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --card-bg: #ffffff;
 }
 
-
 body.dark-theme {
-    --primary-color: #349cc9d2;
-    --secondary-color: #4ca1af;
-    --background-color: #1c1e22;
-    --background-color2: rgb(35, 37, 37);
-    --text-color: #f1f1f1;
-    --border-color: #555;
-    --shadow:rgba(213, 205, 205, 0.091);
-    --text-color2: #ced1d1;
+    --primary-color: #2980b9;
+    --secondary-color: #3498db;
+    --accent-color: #27ae60;
+    --background-color: #2c3e50;
+    --background-color2: #34495e;
+    --text-color: #ecf0f1;
+    --border-color: #7f8c8d;
+    --shadow: rgba(255, 255, 255, 0.1);
+    --card-bg: #34495e;
 }
 
 
 /* General Styles */
+* {
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    font-smooth: always;
+    -webkit-font-smoothing: antialiased;
 }
 
 a {
     text-decoration: none;
-    color: var(--primary-color); /* Bright Blue */
+    color: var(--primary-color);
+    position: relative;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+a:hover::after {
+    transform: scaleX(1);
+}
+
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--background-color2);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+.theme-toggle-btn:hover {
+    transform: rotate(180deg) scale(1.1);
+    background-color: var(--primary-color);
+    color: white;
 }
 
 h1 {
@@ -42,12 +92,48 @@ h1 {
     color: var(--secondary-color);
     margin: 2rem 0;
     font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
 h2 {
     color: var(--secondary-color);
     margin: 1.5rem 0;
     text-align: center;
+    font-weight: 600;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-outline {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px var(--shadow);
 }
 
 h3 {
@@ -282,25 +368,25 @@ button.btn:hover {
 
 /* Features Overview */
 .features-overview {
-    background-color: var(--background-color2); /* Lighter grey */
-    padding: 2rem 1.3rem;
+    padding: 4rem 2rem;
+    background-color: var(--background-color);
 }
 
 .features-container {
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
     flex-wrap: wrap;
-    margin-bottom: 2.5rem; /* Add vertical spacing between containers */
+    justify-content: center;
+    gap: 2rem;
 }
 
-.features-container:last-child {
-    margin-bottom: 0; /* Remove margin from last container */
-}
-
-.feature-item {
+.feature-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 300px;
     text-align: center;
-    padding: 0.3rem;
+    box-shadow: 0 6px 12px var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: var(--background-color); /* White */
     border-radius: 15px;
     width: 150px;

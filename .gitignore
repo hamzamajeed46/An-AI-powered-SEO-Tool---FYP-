@@ -1,2 +1,1 @@
-# Ignore environment files containing secrets
-".env" 
+flask_app/.env

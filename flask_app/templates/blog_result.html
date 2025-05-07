@@ -10,50 +10,46 @@
         <div class="blog-content">
             {{ blog_content | safe }}
         </div>
-
         <div class="img-content">
-        <h3>Image you can add in the blog</h3>
-        
-        {% if image_url %}
-        <img src="{{ image_url }}" alt="Blog image for {{ keyword }}" class="blog-image">
-
-        {% endif %}
+            <h3>Image you can add in the blog</h3>
+            
+            {% if image_url %}
+            <div class="image-wrapper">
+                <img src="{{ image_url }}" alt="Blog image 1 for {{ keyword }}" class="blog-image">
+                <img src="{{ image_url1 }}" alt="Blog image 2 for {{ keyword }}" class="blog-image">
+            </div>
+            {% endif %}
         </div> 
         <a href="/keyword_input">Analyze Another Keyword</a>
-    </div>
-
-<style>
-    .img-content {
-        text-align: center;
-        margin: 40px auto;
-        max-width: 800px;
-    }
-
-    .img-content h2 {
-        font-size: 24px;
-        color: #2d4de0; /* A similar blue tone as the heading */
-        margin-bottom: 20px;
-    }
-
-    img.blog-image {
-        width: 300px;
-        height: 200px;
-        object-fit: cover;
-        display: block;
-        margin: 0 auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    img.blog-image {
-        max-width: 250px;         /* Set a fixed width */
-        max-height: 330px; 
-        width: 100%;
-        height: auto;
-        display: block;
-        margin: 20px auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
-    
+        
+        <style>
+            .img-content {
+                text-align: center;
+                margin: 40px auto;
+                max-width: 800px;
+            }
+        
+            .img-content h3 {
+                font-size: 24px;
+                color: #2d4de0; /* A similar blue tone as the heading */
+                margin-bottom: 20px;
+            }
+        
+            /* Flex container for the images */
+            .image-wrapper {
+                display: flex;
+                justify-content: center;
+                gap: 20px; /* Space between the images */
+                margin-top: 20px;
+            }
+        
+            img.blog-image {
+                width: 250px;
+                height: 330px; 
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+            
 {% endblock %}

@@ -1,6 +1,7 @@
-from langchain_groq import ChatGroq
+from groq import Groq
 from config import Config
 import markdown
+import os
 from backlinks import get_db_connection
 from metadata_analysis import fetch_metadata
 
@@ -10,12 +11,9 @@ coll = db["metadata"]
 
 
 # Initialize LLM
-llm = ChatGroq(
-    temperature=0,
-    groq_api_key=Config.LLM_API,
-    model_name="deepseek-r1-distill-llama-70b"
+client = Groq(
+    api_key=os.getenv("LLM_API"),
 )
-
 
 def compare_metadata2(url1, url2, keyword=None):
     try:
@@ -57,7 +55,7 @@ def generate_comparison_recommendations(compare_result):
         site1_data = compare_result.get("site1", {})
         site2_data = compare_result.get("site2", {})
 
-        # Prepare a prompt for the LLM
+
         prompt = (
             "You are an expert SEO consultant.\n"
             "The client provided the following metadata and keyword analysis from two websites.\n"
@@ -73,8 +71,22 @@ def generate_comparison_recommendations(compare_result):
             "Focus only on actionable improvements. Give detailed strategies that can improve SEO."
         )
 
+
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="llama-3.3-70b-versatile",
+            stream=True,
+        )
+        # Prepare a prompt for the LLM
+
+
         # Send to LLM
-        response = llm.invoke(prompt)
+        response = chat_completion.choices[0].message.content
 
         if response:
             recommendations_html = markdown.markdown(response.content)

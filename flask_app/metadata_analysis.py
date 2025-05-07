@@ -9,11 +9,7 @@ from config import Config
 from backlinks import get_db_connection 
 
 # Initialize the ChatGroq LLM
-llm = ChatGroq(
-    temperature=0,
-    groq_api_key= Config.LLM_API,
-    model_name="deepseek-r1-distill-llama-70b"
-)
+
 
 def fetch_metadata(url, keyword=None):
     try:
@@ -87,6 +83,11 @@ def fetch_metadata(url, keyword=None):
 
 def metadata_recommendations(client_metadata):
     try:
+        llm = ChatGroq(
+            temperature=0,
+            groq_api_key= Config.LLM_API,
+            model_name="llama-3.3-70b-versatile"
+        )
         db = get_db_connection()
 
         # Prepare a prompt for the LLM

@@ -65,7 +65,7 @@ def traffic_insights(traffic_data):
         llm = ChatGroq(
             temperature=0,
             groq_api_key=Config.LLM_API,
-            model_name="deepseek-r1-distill-llama-70b"
+            model_name="llama-3.3-70b-versatile"
         )
 
         # Create the prompt

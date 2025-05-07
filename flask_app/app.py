@@ -9,7 +9,7 @@ from compitator import find_compitators,compare_backlinks
 from backlinks import fetch_backlinks, generate_seo_recommendations, generate_seo_insights
 from metadata_analysis import fetch_metadata, metadata_recommendations
 from traffic import get_traffic_history, traffic_insights
-from keywords_analysis import fetch_keyword_suggestions, generate_blog_from_keyword, fetch_unsplash_image
+from keywords_analysis import fetch_keyword_suggestions, generate_blog_from_keyword, generate_image_from_keyword
 from compare_traffic import fetch_traffic_data, generate_llm_comparison_insights
 from signin import login_route, signup_route
 from compare_metadata import compare_metadata2, generate_comparison_recommendations
@@ -213,6 +213,7 @@ def keyword_analysis():
 
     # Fetch keyword suggestions
     results = fetch_keyword_suggestions(keyword, search_engine, country)
+    image = generate_image_from_keyword(keyword)
 
     if "error" in results:
         return render_template("keyword_result.html", error=results["error"])
@@ -230,8 +231,8 @@ def generate_blog():
 
     try:
         blog_html = generate_blog_from_keyword(prompt, keyword)  # Use your LLM function here
-        image_url = fetch_unsplash_image(keyword)
-        return render_template("blog_result.html", blog_content=blog_html, image_url=image_url, keyword=keyword)
+        image_url,image_url1 = generate_image_from_keyword(keyword)
+        return render_template("blog_result.html", blog_content=blog_html, image_url=image_url, image_url1=image_url1, keyword=keyword)
     except Exception as e:
         return render_template("keyword_result.html", error=f"Error: {str(e)}")
 

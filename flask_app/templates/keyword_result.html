@@ -4,105 +4,128 @@
 
 {% block content %}
 
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-    <div class="container">
-        <h1>Keyword Analysis Results</h1>
-
-        {% if error %}
-            <p style="color: red;">{{ error }}</p>
-        {% else %}
-            <h2>Keyword Ideas</h2>
-            <table class="keyword-table">
-                <thead>
-                    <tr>
-                        <th>Keyword</th>
-                        <th>Difficulty</th>
-                        <th>Volume</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for idea in results.Ideas %}
-                        <tr>
-                            <td>{{ idea.keyword }}</td>
-                            <td>{{ idea.difficulty }}</td>
-                            <td>{{ idea.volume }}</td>
-                            <td>
-                                <form action="/generate_blog" method="POST">
-                                    <input type="hidden" name="keyword" value="{{ idea.keyword }}">
-                                    <button class = "btn" type="submit">Generate Blog</button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>                
-            </table>
-
-            <h2>Related Questions</h2>
-            <table class="keyword-table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Difficulty</th>
-                        <th>Volume</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for question in results.Questions %}
-                        <tr>
-                            <td>{{ question.keyword }}</td>
-                            <td>{{ question.difficulty }}</td>
-                            <td>{{ question.volume }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-
-        <a href="/keyword_input">Analyze Another Keyword</a>
-    </div>
-
-    
 <style>
-    #loader {
-      position: fixed;
-      z-index: 9999;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    body {
+        background: #f9fafb;
+        font-family: 'Inter', sans-serif;
     }
 
-    .spinner {
-      border: 8px solid #f3f3f3;
-      border-top: 8px solid #3498db;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
+    .container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1rem;
     }
 
-    body.loaded #loader {
-      display: none;
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #4f46e5;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
     }
 
-    body:not(.loaded) #content {
-      display: none;
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
     }
-</style>    
-    
-<script>
-    // Hide loader as soon as DOM is ready
-    document.addEventListener("DOMContentLoaded", function () {
-      document.body.classList.add("loaded");
-    });
-</script>
+
+    .card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .card p {
+        margin: 0.3rem 0;
+        color: #374151;
+        font-size: 0.95rem;
+    }
+
+    .keyword {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .btn-modern {
+        margin-top: 1rem;
+        padding: 0.6rem 1.2rem;
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.25s ease, transform 0.2s ease;
+    }
+
+    .btn-modern:hover {
+        background-color: #4338ca;
+        transform: scale(1.03);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 2rem;
+        color: #4f46e5;
+        font-weight: 500;
+        text-decoration: underline;
+        transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+        color: #3730a3;
+    }
+
+    .error-message {
+        color: #dc2626;
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <h1>Keyword Analysis Results</h1>
+
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% else %}
+        <h2>Keyword Ideas</h2>
+        <div class="grid">
+            {% for idea in results.Ideas %}
+                <div class="card">
+                    <p class="keyword">{{ idea.text }}</p>
+                    <p><strong>Difficulty:</strong> {{ idea.competition_level }}</p>
+                    <p><strong>Volume:</strong> {{ idea.volume }}</p>
+                    <p><strong>Trend:</strong> {{ idea.trend }}</p>
+                    <form action="/generate_blog" method="POST">
+                        <input type="hidden" name="keyword" value="{{ idea.text }}">
+                        <button type="submit" class="btn-modern">Generate Blog</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <a href="/keyword_input" class="back-link">← Analyze Another Keyword</a>
+</div>
 
 {% endblock %}
