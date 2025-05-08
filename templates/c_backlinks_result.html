@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Backlink Comparison Results{% endblock %}
+
+{% block content %}
+<h2>Backlink Comparison</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Your Website</th>
+            <th>Competitor's Website</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td><strong>Total Backlinks</strong></td><td>{{ result.main_backlinks.backlinks }}</td><td>{{ result.competitor_backlinks.backlinks }}</td></tr>
+        <tr><td><strong>Referring Domains</strong></td><td>{{ result.main_backlinks.refdomains }}</td><td>{{ result.competitor_backlinks.refdomains }}</td></tr>
+        <tr><td><strong>dofollow Backlinks</strong></td><td>{{ result.main_backlinks.dofollowBacklinks }}</td><td>{{ result.competitor_backlinks.dofollowBacklinks }}</td></tr>
+        <tr><td><strong>Domain Rating</strong></td><td>{{ result.main_backlinks.domainRating }}/100</td><td>{{ result.competitor_backlinks.domainRating }}/100</td></tr>
+        <tr><td><strong>URL Rating</strong></td><td>{{ result.main_backlinks.urlRating }}/100</td><td>{{ result.competitor_backlinks.urlRating }}/100</td></tr>
+    </tbody>
+</table>
+
+<button id="show-recommendations-btn" onclick="showRecommendations()">Show Recommendations</button>
+
+<div id="recommendations" style="display: none;">
+    <h2>AI-Powered Backlink Recommendations</h2>
+    <div class="border p-3 bg-light">
+        {{ result.recommendations | safe }}
+    </div>
+</div>
+
+<h2>Your Website's Backlinks List (Top 5):</h2>
+<table>
+    <thead>
+        <tr><th>URL</th><th>Title</th><th>Domain Rating</th><th>Target URL</th><th>Anchor</th><th>Summary</th><th>Link</th></tr>
+    </thead>
+    <tbody>
+    {% for backlink in result.main_backlinks.backlinksList[:5] %}
+        <tr>
+            <td>{{ backlink.url }}</td>
+            <td>{{ backlink.title }}</td>
+            <td>{{ backlink.domain_rating }}</td>
+            <td>{{ backlink.target_url }}</td>
+            <td>{{ backlink.anchor }}</td>
+            <td>{{ backlink.summary }}</td>
+            <td><a href="{{ backlink.link }}" target="_blank">Visit</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>Competitor Website's Backlinks List (Top 5):</h2>
+<table>
+    <thead>
+        <tr><th>URL</th><th>Title</th><th>Domain Rating</th><th>Target URL</th><th>Anchor</th><th>Summary</th><th>Link</th></tr>
+    </thead>
+    <tbody>
+    {% for backlink in result.competitor_backlinks.backlinksList[:5] %}
+        <tr>
+            <td>{{ backlink.url }}</td>
+            <td>{{ backlink.title }}</td>
+            <td>{{ backlink.domain_rating }}</td>
+            <td>{{ backlink.target_url }}</td>
+            <td>{{ backlink.anchor }}</td>
+            <td>{{ backlink.summary }}</td>
+            <td><a href="{{ backlink.link }}" target="_blank">Visit</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script>
+function showRecommendations() {
+    document.getElementById("recommendations").style.display = "block";
+    document.getElementById("show-recommendations-btn").style.display = "none";
+}
+</script>
+{% endblock %}

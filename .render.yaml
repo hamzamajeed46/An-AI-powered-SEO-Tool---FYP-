@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: flask-app
-    env: python
-    buildCommand: cd flask_app && pip install -r requirements.txt
-    startCommand: cd flask_app && gunicorn app:app
-    plan: free

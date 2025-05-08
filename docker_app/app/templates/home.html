@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered SEO Tool</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">🌙</button>
+  
+  <header class="hero-section">
+    <nav class="top-nav">
+      <div class="nav-right">
+        {% if 'user_id' in session %}
+          <span>Welcome, {{ session['username'] }}!</span>
+          <a href="{{ url_for('logout') }}" class="btn">Log Out</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="btn btn-outline">Sign In</a>
+          <a href="{{ url_for('signup') }}" class="btn">Sign Up</a>
+        {% endif %}
+      </div>    
+    </nav>
+    <div class="hero-content">
+      <h1>Simplify Your SEO with AI-Powered Insights</h1>
+      <div>
+        <a href="#learn-more" class="btn btn-secondary">Learn More</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="features-overview">
+      <h1>Features Overview</h1>
+      <div class="features-container">
+        
+        <div class="feature-item">
+          <a href="{{ url_for('keyword_input') }}">
+            <img src="{{ url_for('static', filename='images/keyword.png') }}" alt="Keyword Recommendations">
+            <span>Keyword Recommendations</span>
+          </a>
+        </div>
+        <div class="feature-item">
+          <a href="{{ url_for('traffic_input') }}">
+            <img src="{{ url_for('static', filename='images/traffic.png') }}" alt="Traffic Analysis">
+            <span>Traffic Analysis</span>
+          </a>
+        </div>
+        
+        <div class="feature-item">
+          <a href="{{ url_for('backlinks') }}">
+            <img src="{{ url_for('static', filename='images/backlink.png') }}" alt="Backlinks Analysis">
+            <span>Backlinks Analysis</span>
+          </a>
+        </div>
+        <div class="feature-item">
+          <a href="{{ url_for('metadata') }}">
+            <img src="{{ url_for('static', filename='images/metadata.png') }}" alt="Backlinks Analysis">
+            <span>Metadata Analysis</span>
+          </a>
+        </div>
+      </div>
+      <div class="features-container">
+        
+        <div class="feature-item">
+          <a href="{{ url_for('compitator') }}">
+            <img src="{{ url_for('static', filename='images/competitor.png') }}" alt="Competitor Insights">
+            <span>Competitor Insights</span>
+          </a>
+        </div>
+        <div class="feature-item">
+          <a href="{{ url_for('report') }}">
+            <img src="{{ url_for('static', filename='images/reports.png') }}" alt="Custom Reports">
+            <span>Custom Reports</span>
+          </a>
+        </div>
+
+        <div class="feature-item">
+          <a href="#seo-health">
+            <img src="{{ url_for('static', filename='images/seo-health.png') }}" alt="SEO Health">
+            <span>SEO Health Analysis</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps-container">
+        <div class="step">
+          <span class="step-number">1</span>
+          <p>Analyze your SEO data.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <p>Receive actionable insights.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <p>Optimize your website.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  
+  <footer>
+    <div class="footer-container">
+      <a href="#about">About Us</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+      <a href="#contact">Contact Info</a>
+    </div>
+  </footer>
+</body>
+</html>

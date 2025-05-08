@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Keywords Analysis{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Keyword Analysis Results</h1>
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% else %}
+            <h2>Keyword Ideas</h2>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Difficulty</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for idea in results.Ideas %}
+                        <tr>
+                            <td>{{ idea.keyword }}</td>
+                            <td>{{ idea.difficulty }}</td>
+                            <td>{{ idea.volume }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Related Questions</h2>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Difficulty</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in results.Questions %}
+                        <tr>
+                            <td>{{ question.keyword }}</td>
+                            <td>{{ question.difficulty }}</td>
+                            <td>{{ question.volume }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <a href="/keyword_input">Analyze Another Keyword</a>
+    </div>
+
+    
+{% endblock %}

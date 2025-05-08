@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Traffic Analysis{% endblock %}
+
+{% block content %}
+
+    
+    <h1>Traffic Analysis</h1>
+    <main>
+    <h2>Enter Website URL</h2>
+        <form action="{{ url_for('traffic_results') }}" method="GET" class="keyword-form" >
+            <label for="website">Website URL:</label>
+            <input type="text" id="website" name="website" placeholder="https://example.com" required>
+            <button type="submit" class="btn">Analyze Traffic</button>
+        </form>
+    </main>
+    
+
+    <footer>
+        <p>&copy; 2024 AI-Powered SEO Tool</p>
+    </footer>
+</body>
+</html>
+{% endblock %}

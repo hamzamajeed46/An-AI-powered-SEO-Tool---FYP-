@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Keyword Analysis{% endblock %}
+
+{% block content %}
+
+    <h1>Keyword Analysis</h1>
+    
+    <form action="/keyword_analysis" method="POST" class="keyword-form">
+        <label for="keyword">Enter Keyword:</label>
+        <input type="text" id="keyword" name="keyword" required>
+        <br>
+        <label for="search_engine">Search Engine:</label>
+        <select id="search_engine" name="search_engine">
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+        </select>
+        <br>
+        <label for="country">Country:</label>
+        <select name="country">
+            {% for country in countries %}
+            <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit" class="btn">Analyze</button>
+    </form>
+{% endblock %}

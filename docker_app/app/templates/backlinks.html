@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Backlinks Analysis{% endblock %}
+
+{% block content %}
+
+    <h1>Enter Website to Check Backlinks</h1>
+    <form action="/get_backlinks" method="post" class="keyword-form">
+        <label for="website">Website:</label>
+        <input type="text" id="website" name="website" placeholder="e.g., example.com" required>
+        <button type="submit" class="btn">Submit</button>
+
+    </form>
+
+
+
+{% endblock %}

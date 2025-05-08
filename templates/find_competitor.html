@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Find Competitor{% endblock %}
+
+{% block content %}
+    <h1>Find Your Competitors</h1>
+
+    <form action="{{ url_for('find_compitator') }}" method="post" class="keyword-form">
+        <label for="keyword">Keyword:</label>
+        <input type="text" name="keyword" required>
+
+        <label for="country">Country:</label>
+        <select name="country">
+            {% for country in countries %}
+            <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="num_results">Number of Results (Max 100):</label>
+        <input type="number" name="num_results" min="1" max="100" value="10">
+
+        <button type="submit" class="btn">Find Competitors</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if competitors %}
+        <h3>Competitor Websites</h3>
+        <ul>
+            {% for competitor in competitors %}
+            <li><a href="{{ competitor }}" target="_blank">{{ competitor }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

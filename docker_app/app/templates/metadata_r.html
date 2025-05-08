@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Metadata Recommendations{% endblock %}
+
+{% block content %}
+
+    <h1>Recommendations for Metadata and Focus Keyword in Website Content</h1>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% else %}
+        <section class="acquisition-section">
+            <h2>Recommendations</h2>
+                <p>{{ recommendations | safe }}</p>
+        </section>
+
+    {% endif %}
+    
+{% endblock %}

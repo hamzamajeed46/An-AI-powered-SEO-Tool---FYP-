@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Metadata Analysis{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Metadata & Keyword Analysis</h1>
+
+        <!-- Render metadata if available -->
+        {% if metadata_main %}
+            <h2>Main URL Metadata</h2>
+            <table>
+                {% for key, value in metadata_main.items() %}
+                    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <!-- Keyword Analysis Section -->
+        {% if keyword_data_main %}
+            <h3>Keyword Analysis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Count</th>
+                        <th>Density (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for keyword, data in keyword_data_main.items() %}
+                        <tr>
+                            <td>{{ keyword }}</td>
+                            <td>{{ data.count }}</td>
+                            <td>{{ data.density }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No keyword analysis data available.</p>
+        {% endif %}
+
+    </div>
+    <section>
+
+        <h1>Recommendations for Metadata and Focus Keyword in Website Content</h1>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% else %}
+            <section class="acquisition-section">
+                <h2>Recommendations</h2>
+                    <p>{{ recommendations | safe }}</p>
+            </section>
+
+        {% endif %}
+        
+      </section>
+
+    <footer>
+        <div class="footer-container">
+          <a href="traffic_input.html">About Us</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+          <a href="#contact">Contact Info</a>
+        </div>
+      </footer>
+
+{% endblock %}

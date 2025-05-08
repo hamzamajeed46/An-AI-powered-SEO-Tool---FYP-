@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Metadata Analysis{% endblock %}
+
+{% block content %}
+
+<main>
+
+    <h1>Enter Website to Check Metadata</h1>
+    <form action="/get_metadata" method="post" class="keyword-form">
+        <label for="website">Website:</label>
+        <input type="text" id="website" name="website" placeholder="Enter a website e.g., example.com" required>
+        <input type="text" id="keyword" name="keyword" placeholder="Enter a focus keyword" >
+        <button type="submit" class="btn">Submit</button>
+
+    </form>
+
+</main>
+
+{% endblock %}

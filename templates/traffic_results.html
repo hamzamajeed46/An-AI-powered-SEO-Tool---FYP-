@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Traffic Results{% endblock %}
+
+{% block content %}
+        <h1>Traffic Analysis Results</h1>
+    
+        <section class="chart-section">
+            <h2>Traffic History</h2>
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% else %}
+            <canvas id="trafficChart" width="400" height="200"></canvas>
+
+            
+        </section>
+
+        <section>
+            <h2>Top Pages</h2>
+            <table class="top-pages-table">
+                <thead>
+                    <tr>
+                        <th>Page URL</th>
+                        <th>Traffic</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in data.top_pages %}
+                    <tr>
+                        <td><a href="{{ page.url }}" target="_blank">{{ page.url }}</a></td>
+                        <td>{{ page.traffic }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </section>
+            
+
+        <section>
+            <h2>Top Keywords</h2>
+            <table class="keyword-table">
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Position</th>
+                        <th>Traffic</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for keyword in data.top_keywords %}
+                    <tr>
+                        <td>{{ keyword.keyword }}</td>
+                        <td>{{ keyword.position }}</td>
+                        <td>{{ keyword.traffic }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% endif %}
+            
+
+
+    <section>
+
+        <a href="{{ url_for('traffic_recommendations') }}" class="btn" target="_blank">See Insights</a>
+
+
+    </section>
+    
+    
+
+
+
+    <script>
+        var trafficData = JSON.parse('{{ traffic_history | safe }}');
+    
+        console.log("Traffic Data:", trafficData); // Debugging
+    
+        const monthNames = {
+            "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr",
+            "05": "May", "06": "Jun", "07": "Jul", "08": "Aug",
+            "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec"
+        };
+
+            // 🚀 Extract months in original order
+            let labels = Object.keys(trafficData).map(month => monthNames[month]); 
+            let visits = Object.values(trafficData); // Get visit counts in same order
+            // Keep values in the same order
+    
+        console.log("Labels:", labels);
+        console.log("Visits:", visits);
+    
+        // 🔹 Create chart only if there is data
+        if (labels.length > 0) {
+            new Chart(document.getElementById('trafficChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Monthly Traffic',
+                        data: visits,
+                        borderColor: '#007bff',
+                        fill: false,
+                        tension: 0.3
+                    }]
+                }
+            });
+        } else {
+            document.write("<p style='color:red;'>No traffic data available.</p>");
+        }
+    </script>
+    
+{% endblock %}

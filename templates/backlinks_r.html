@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Backlinks Recommendations{% endblock %}
+
+{% block styles %}
+<style>
+    .backlinks-recommendations-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: var(--background-color2);
+        margin-top: 100px; /* Adjust this if your navbar is taller */
+    }
+
+    .recommendations-grid,
+    .insights-grid {
+        margin-top: 20px;
+    }
+
+    .error-message {
+        color: red;
+        background-color: #ffe6e6;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 100px;
+    }
+
+    .error-message i {
+        margin-right: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="backlinks-recommendations-container">
+    {% if error %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>{{ (error or 'An unexpected error occurred') | string }}</p>
+        </div>
+    {% else %}
+        <h2>AI Recommendations and Insights</h2>
+        <div class="recommendations-grid">
+            {{ recommendations | safe }}
+        </div>
+        
+        <div class="insights-grid">
+            {{ insights | safe }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

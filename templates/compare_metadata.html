@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Metadata{% endblock %}
+
+{% block content %}
+
+<main>
+
+    <h1>Enter Two Websites to Compare Metadata</h1>
+    <form action="{{ url_for('get_compare_metadata') }}" method="post" class="keyword-form">
+        
+        <label for="website1">Website 1:</label>
+        <input type="text" id="website1" name="website1" placeholder="Enter first website e.g., example1.com" required>
+
+        <label for="website2">Website 2:</label>
+        <input type="text" id="website2" name="website2" placeholder="Enter second website e.g., example2.com" required>
+
+        <label for="keyword">Focus Keyword (optional):</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Enter a focus keyword (optional)">
+
+        <button type="submit" class="btn">Compare</button>
+
+    </form>
+
+</main>
+
+{% endblock %}

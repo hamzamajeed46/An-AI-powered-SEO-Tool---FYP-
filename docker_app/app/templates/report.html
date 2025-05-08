@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Report{% endblock %}
+
+{% block content %}
+
+<h2>Generate SEO Report</h2>
+<form method="get" action="/download-report" class="keyword-form">
+    <label for="website">Website:</label>
+    <input type="text" id="website" name="website" placeholder="example.com" required>
+
+    <label for="keyword">Keyword:</label>
+    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword" required>
+
+    <button type="submit" class="btn">Submit</button>
+</form>
+
+{% endblock %}
