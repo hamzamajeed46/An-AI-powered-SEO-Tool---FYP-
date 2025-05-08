@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - seo-tool
+name: Build and Deploy Flask App to Azure Web App
 
 on:
   push:
@@ -23,17 +23,21 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./flask_app
-        run: pip install -r requirements.txt
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
 
-      - name: Zip Flask app directory only
-        run: zip -r release.zip . -x "venv/**" -x ".git/**"
+      - name: Zip app for deployment
         working-directory: ./flask_app
+        run: |
+          zip -r ../release.zip . -x "venv/*"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flask-app
-          path: ./flask_app/release.zip
+          name: python-app
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +53,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: flask-app
+          name: python-app
 
       - name: Unzip artifact
         run: unzip release.zip
@@ -59,12 +63,13 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'seo-tool'
+          app-name: 'seo-tool' # Change this to your Azure Web App name
           slot-name: 'Production'
-          package: .
+          package: release.zip
