@@ -1,5 +1,6 @@
 name: Build and deploy Python app to Azure Web App - SEOTOOL
 
+
 on:
   push:
     branches:
