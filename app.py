@@ -204,22 +204,29 @@ def keyword_input():
 
 @app.route('/keyword_analysis', methods=["POST"])
 def keyword_analysis():
-    keyword = request.form.get("keyword")
-    search_engine = request.form.get("search_engine", "google")
-    country = request.form.get("country", "us")
+    try:
+        keyword = request.form.get("keyword")
+        search_engine = request.form.get("search_engine", "google")
+        country = request.form.get("country", "us")
 
-    if not keyword:
-        return render_template("keyword_result.html", error="Keyword is required.")
+        if not keyword:
+            return render_template("keyword_result.html", error="Keyword is required.")
 
-    # Fetch keyword suggestions
-    results = fetch_keyword_suggestions(keyword, search_engine, country)
-    image = generate_image_from_keyword(keyword)
+        # Fetch keyword suggestions
+        results = fetch_keyword_suggestions(keyword, search_engine, country)
 
-    if "error" in results:
-        return render_template("keyword_result.html", error=results["error"])
-    
+        if isinstance(results, str) or "error" in results:
+            return render_template("keyword_result.html", error=results.get("error", results))
 
-    return render_template("keyword_result.html", results=results)
+        return render_template("keyword_result.html", results=results)
+
+    except Exception as e:
+        # Log the error to console (or file/db if needed)
+        print(f"[ERROR] {str(e)}")
+
+        # Show the error message to the user
+        return render_template("keyword_result.html", error=f"Unexpected error: {str(e)}")
+
 @app.route("/generate_blog", methods=["POST"])
 def generate_blog():
     keyword = request.form.get("keyword")
