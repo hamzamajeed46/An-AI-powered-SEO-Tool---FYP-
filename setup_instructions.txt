@@ -1,0 +1,43 @@
+
+AI-Powered SEO Tool – Setup Instructions
+----------------------------------------
+
+1. Create and activate a virtual environment:
+   ------------------------------------------
+   On macOS/Linux:
+       python3 -m venv venv
+       source venv/bin/activate
+
+   On Windows:
+       python -m venv venv
+       venv\Scripts\activate
+
+2. Install dependencies:
+   ----------------------
+   pip install -r requirements.txt
+
+3. Start MongoDB locally:
+   -----------------------
+   Ensure MongoDB is running on the default port: mongodb://localhost:27017/
+
+4. Run the Flask application:
+   ---------------------------
+   python app.py
+
+
+Project Structure
+-----------------
+├── app.py                  # Main Flask application
+├── templates/              # HTML templates
+├── static/                 # Static files (CSS, JS, images)
+├── compitator.py           # Competitor logic
+├── backlinks.py            # Backlink handling
+├── metadata_analysis.py    # Metadata parsing
+├── traffic.py              # Traffic data
+├── compare_traffic.py      # Traffic comparison logic
+├── compare_metadata.py     # Metadata comparison logic
+├── keywords_analysis.py    # Keyword and blog/image generation
+├── report.py               # SEO report generation
+├── signin.py               # Signup/Login handling
+├── requirements.txt        # Dependency list
+└── README.md               # Project description and usage guide
