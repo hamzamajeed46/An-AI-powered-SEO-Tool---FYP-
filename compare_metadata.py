@@ -52,6 +52,11 @@ def compare_metadata2(url1, url2, keyword=None):
 
 def generate_comparison_recommendations(compare_result):
     try:
+        llm = ChatGroq(
+        temperature=0.5,
+        groq_api_key=os.getenv('LLM_API'),
+        model_name="llama-3.3-70b-versatile"
+    )
         site1_data = compare_result.get("site1", {})
         site2_data = compare_result.get("site2", {})
 
@@ -72,24 +77,10 @@ def generate_comparison_recommendations(compare_result):
         )
 
 
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ],
-            model="llama-3.3-70b-versatile",
-            stream=True,
-        )
-        # Prepare a prompt for the LLM
-
-
-        # Send to LLM
-        response = chat_completion.choices[0].message.content
-
+        response = llm.invoke(prompt)
+        
         if response:
-            recommendations_html = markdown.markdown(response.content)
+            recommendations_html = beautify_markdown_to_html(response.content)
             # First, find the latest document (if needed)
             latest_document = coll.find_one({"url": site1_data["url"]}, sort=[("_id", -1)])
 

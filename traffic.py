@@ -7,12 +7,6 @@ from markdown import markdown
 from config import Config
 from backlinks import get_db_connection  # Assuming you have this function to get the DB connection
 
-# API Details
-API_URL = "https://ahrefs1.p.rapidapi.com/traffic"
-HEADERS = {
-    "x-rapidapi-key": os.getenv('API_KEY4'),
-    "x-rapidapi-host": "ahrefs1.p.rapidapi.com"
-}
 
 
 def get_traffic_history(website):
@@ -23,7 +17,7 @@ def get_traffic_history(website):
     try:
         conn = http.client.HTTPSConnection("ahrefs2.p.rapidapi.com")
         headers = {
-            'x-rapidapi-key': os.getenv("API_KEY3"),
+            'x-rapidapi-key': os.getenv("API_KEY4"),
             'x-rapidapi-host': "ahrefs2.p.rapidapi.com"
         }
         
@@ -64,7 +58,7 @@ def traffic_insights(traffic_data):
         # Initialize the ChatGroq LLM
         llm = ChatGroq(
             temperature=0,
-            groq_api_key=Config.LLM_API,
+            groq_api_key=os.getenv("LLM_API"),
             model_name="llama-3.3-70b-versatile"
         )
 

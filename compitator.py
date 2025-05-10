@@ -114,8 +114,8 @@ def generate_groq_recommendations(main_backlinks, competitor_backlinks):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key=Config.LLM_API,
-        model_name="deepseek-r1-distill-llama-70b"
+        groq_api_key=os.getenv('LLM_API'),
+        model_name="llama-3.3-70b-versatile"
     )
 
     # Create the prompt for Groq LLM

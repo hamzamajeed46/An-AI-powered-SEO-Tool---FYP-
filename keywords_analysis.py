@@ -67,7 +67,7 @@ def get_country_code(country_name):
 def generate_blog_from_keyword(prompt, keyword):
     llm = ChatGroq(
     temperature=0,
-    groq_api_key= Config.LLM_API,
+    groq_api_key= os.getenv("LLM_API"),
     model_name="meta-llama/llama-4-scout-17b-16e-instruct"
     )
     # Call the LLM API (similar to your metadata_recommendations function)

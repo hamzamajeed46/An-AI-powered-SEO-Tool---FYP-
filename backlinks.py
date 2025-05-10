@@ -85,7 +85,7 @@ def generate_seo_recommendations(backlinks_data):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0.5,
-        groq_api_key=Config.LLM_API,
+        groq_api_key=os.getenv('LLM_API'),
         model_name="llama-3.3-70b-versatile"
     )
 
@@ -137,7 +137,7 @@ def generate_seo_insights(backlinks_data):
     # Initialize the ChatGroq LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key=Config.LLM_API,
+        groq_api_key=os.getenv('LLM_API'),
         model_name="llama-3.3-70b-versatile"
     )
 

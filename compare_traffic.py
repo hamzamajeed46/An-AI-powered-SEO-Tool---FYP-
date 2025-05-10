@@ -51,8 +51,8 @@ def generate_llm_comparison_insights(data1, data2, website1, website2):
     # Setup LLM
     llm = ChatGroq(
         temperature=0,
-        groq_api_key=Config.LLM_API,
-        model_name="deepseek-r1-distill-llama-70b"
+        groq_api_key=os.getenv('LLM_API'),
+        model_name="llama-3.3-70b-versatile"
     )
 
     prompt = f"""Act as seo expert and you will be telling below things to a non seo expert.
