@@ -1,7 +1,6 @@
 import requests
 from config import Config
 import os
-import http.client
 from datetime import datetime
 import pycountry
 from langchain_groq import ChatGroq
@@ -53,8 +52,8 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
         else:
             return {"error": "API returned an unsuccessful status."}
 
-    except requests.exceptions.RequestException as e:
-        return {"error": str(e)}
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 
 def get_country_code(country_name):
@@ -82,29 +81,28 @@ def generate_blog_from_keyword(prompt, keyword):
     except Exception as e:
         return f"Error: {str(e)}"
 
-
-import json
-
 def generate_image_from_keyword(keyword):
-    
-    url = "https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php"
+    try:
+        url = "https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php"
 
-    payload = {
-        "prompt": f"An image for blog post about {keyword}",
-        "style_id": 2,
-        "size": "1-1"
-    }
-    headers = {
-        "x-rapidapi-key": os.getenv('API_KEY4'),
-        "x-rapidapi-host": "ai-text-to-image-generator-flux-free-api.p.rapidapi.com",
-        "Content-Type": "application/json"
-    }
+        payload = {
+            "prompt": f"An image for blog post about {keyword}",
+            "style_id": 2,
+            "size": "1-1"
+        }
+        headers = {
+            "x-rapidapi-key": os.getenv('API_KEY4'),
+            "x-rapidapi-host": "ai-text-to-image-generator-flux-free-api.p.rapidapi.com",
+            "Content-Type": "application/json"
+        }
 
-    response = requests.post(url, json=payload, headers=headers)
-    response = response.json()
+        response = requests.post(url, json=payload, headers=headers)
+        response = response.json()
 
 
-    if response['final_result']:
-        return response['final_result'][0]['origin'], response['final_result'][1]['origin']
-    else:
-        return None, None
+        if response['final_result']:
+            return response['final_result'][0]['origin'], response['final_result'][1]['origin']
+        else:
+            return None, None
+    except Exception as e:
+        return f"Error: {str(e)}"
