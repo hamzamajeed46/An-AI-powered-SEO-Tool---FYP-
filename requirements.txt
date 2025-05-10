@@ -2,7 +2,6 @@ gunicorn==23.0.0
 beautifulsoup4==4.12.3
 boto3==1.35.44
 botocore==1.35.44
-dotenv==0.9.9
 Flask==3.1.0
 Flask-Cors==5.0.0
 Flask-Markdown==0.3
@@ -21,5 +20,4 @@ pycountry==24.6.1
 pymongo==4.10.1
 python-dotenv==1.1.0
 requests==2.31.0
-uuid==1.30
 Werkzeug==3.1.3
