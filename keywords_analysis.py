@@ -34,7 +34,13 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
         }
 
         response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code != 200:
+            headers = {
+            "x-rapidapi-key": os.getenv('API_KEY4'),
+            "x-rapidapi-host": "google-keyword-insight1.p.rapidapi.com"
+            }
 
+            response = requests.get(url, headers=headers, params=querystring)
         data = response.json()
 
         if data:
