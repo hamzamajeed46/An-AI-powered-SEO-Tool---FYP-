@@ -7,6 +7,8 @@ import pycountry
 from langchain_groq import ChatGroq
 from backlinks import beautify_markdown_to_html, get_db_connection  
 
+ChatGroq.model_rebuild()
+
 db = get_db_connection()  # Replace with your specific database name
 keywords_collection = db.keywords  
 

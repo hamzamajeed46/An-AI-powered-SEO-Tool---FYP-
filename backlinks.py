@@ -9,6 +9,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 
+ChatGroq.model_rebuild()
+
 # MongoDB setup
 def get_db_connection():
     client = MongoClient('mongodb://localhost:27017/')

@@ -5,6 +5,8 @@ from config import Config
 from backlinks import get_db_connection  
 from traffic import get_traffic_history
 
+ChatGroq.model_rebuild()
+
 db = get_db_connection()
 traffic_collection = db["traffic"]
 

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
 from datetime import datetime
 from flask import session
 import markdown
@@ -9,7 +10,7 @@ from config import Config
 from backlinks import get_db_connection 
 
 # Initialize the ChatGroq LLM
-
+ChatGroq.model_rebuild()
 
 def fetch_metadata(url, keyword=None):
     try:
@@ -100,20 +101,25 @@ def metadata_recommendations(client_metadata):
 
         # Invoke the LLM
         response = llm.invoke(prompt)
-        
         if response:
             recommendations_html = markdown.markdown(response.content)
-
-            # If user is logged in, update the most recent metadata document
-            db.metadata.update_one(
-                {"email:": session["email"]},
-                {"$set": {"recommendations": recommendations_html}},
-                sort=[("_id", -1)]  # Sort by latest inserted document
-            )
-
-            return recommendations_html
+        
         else:
             return "No recommendations provided."
+
+        if 'email' in session:
+            latest_doc = db.metadata.find_one(
+                {"email": session["email"]},
+                sort=[("_id", -1)]
+            )
+
+            if latest_doc:
+                db.metadata.update_one(
+                    {"_id": latest_doc["_id"]},
+                    {"$set": {"recommendations": recommendations_html}}
+                )
+
+        return recommendations_html
         
     except Exception as e:
         return f"Failed to generate recommendations: {str(e)}"

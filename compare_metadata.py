@@ -1,19 +1,15 @@
-from groq import Groq
+from langchain_groq import ChatGroq
 from config import Config
 import markdown
 import os
 from backlinks import get_db_connection
 from metadata_analysis import fetch_metadata
 
+ChatGroq.model_rebuild()
 
 db = get_db_connection()  
 coll = db["metadata"]  
 
-
-# Initialize LLM
-client = Groq(
-    api_key=os.getenv("LLM_API"),
-)
 
 def compare_metadata2(url1, url2, keyword=None):
     try:

@@ -8,6 +8,8 @@ from flask import session
 from pymongo import MongoClient
 from datetime import datetime
 
+ChatGroq.model_rebuild()
+
 def store_competitor_data(keyword, comp_data, country):
     """
     Store backlinks data for the competitor in the 'competitors' collection,

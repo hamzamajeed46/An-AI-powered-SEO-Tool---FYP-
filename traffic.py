@@ -7,7 +7,7 @@ from markdown import markdown
 from config import Config
 from backlinks import get_db_connection  # Assuming you have this function to get the DB connection
 
-
+ChatGroq.model_rebuild()
 
 def get_traffic_history(website):
     """
