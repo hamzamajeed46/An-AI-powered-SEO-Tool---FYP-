@@ -10,23 +10,11 @@ ChatGroq.model_rebuild()
 
 db = get_db_connection()  # Replace with your specific database name
 keywords_collection = db.keywords  
-
 def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
-    """
-    Fetch keyword suggestions from the API and store them in the 'keywords' collection in MongoDB.
-
-    Args:
-        keyword (str): The main keyword to analyze.
-        search_engine (str): The search engine to use (default: "google").
-        country (str): The country code for the search (default: "us").
-
-    Returns:
-        dict: A dictionary containing keyword suggestions and related questions.
-    """
     try:
         url = "https://google-keyword-insight1.p.rapidapi.com/topkeys/"
         country = country.upper()
-        querystring = {"keyword":keyword,"location":country,"lang":"en"}
+        querystring = {"keyword": keyword, "location": country, "lang": "en"}
 
         headers = {
             "x-rapidapi-key": os.getenv('API_KEY4'),
@@ -34,32 +22,27 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
         }
 
         response = requests.get(url, headers=headers, params=querystring)
-        if response.status_code != 200:
-            headers = {
-            "x-rapidapi-key": os.getenv('API_KEY3'),
-            "x-rapidapi-host": "google-keyword-insight1.p.rapidapi.com"
-            }
 
-            response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code != 200:
+            return {"error": f"API Error {response.status_code}: {response.text}"}
+
         data = response.json()
 
-        if data:
-            suggestions = {
-                "keyword": keyword,
-                "country": country,
-                "Ideas": data,
-                "date": datetime.utcnow()  # Add current UTC timestamp
-            }
+        if not isinstance(data, list):
+            return {"error": "API returned unexpected format."}
 
-            # Insert the suggestions data into the 'keywords' collection
-            keywords_collection.insert_one(suggestions)
+        suggestions = {
+            "keyword": keyword,
+            "country": country,
+            "Ideas": data,
+            "date": datetime.utcnow()
+        }
 
-            return suggestions  # Return the data for the caller to use
-        else:
-            return {"error": "API returned an unsuccessful status."}
+        keywords_collection.insert_one(suggestions)
+        return suggestions
 
     except Exception as e:
-        return f"Error: {str(e)}"
+        return {"error": f"Exception occurred: {str(e)}"}
 
 
 def get_country_code(country_name):
