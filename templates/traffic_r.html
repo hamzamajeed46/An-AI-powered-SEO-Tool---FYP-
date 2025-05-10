@@ -3,17 +3,37 @@
 {% block title %}Traffic Insights{% endblock %}
 
 {% block content %}
-
-    <h1>Insights and Acquisition Strategies for Web Traffic</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="display-5 mb-4">🚦 Website Traffic Insights</h1>
+            <p class="lead">Explore key findings and actionable strategies to grow your web traffic.</p>
+        </div>
+    </div>
 
     {% if error %}
-        <p style="color:red;">{{ error }}</p>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-danger text-center" role="alert">
+                {{ error }}
+            </div>
+        </div>
+    </div>
     {% else %}
-        <section class="acquisition-section">
-            <h2>Insights and Acquisition Strategies</h2>
-                <p>{{ recommendations | safe }}</p>
-        </section>
-
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">📊 SEO Recommendations</h4>
+                </div>
+                <div class="card-body">
+                    <div class="recommendation-text">
+                        {{ recommendations | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
-    
+</div>
 {% endblock %}
