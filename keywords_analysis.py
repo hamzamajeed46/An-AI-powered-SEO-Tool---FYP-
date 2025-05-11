@@ -84,7 +84,7 @@ def generate_image_from_keyword(keyword):
             "size": "1-1"
         }
         headers = {
-            "x-rapidapi-key": os.getenv('API_KEY4'),
+            "x-rapidapi-key": os.getenv('API_KEY5'),
             "x-rapidapi-host": "ai-text-to-image-generator-flux-free-api.p.rapidapi.com",
             "Content-Type": "application/json"
         }
@@ -92,7 +92,7 @@ def generate_image_from_keyword(keyword):
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code != 200:
             headers = {
-            "x-rapidapi-key": os.getenv('API_KEY'),
+            "x-rapidapi-key": os.getenv('API_KEY4'),
             "x-rapidapi-host": "ai-text-to-image-generator-flux-free-api.p.rapidapi.com",
             "Content-Type": "application/json"
             }
