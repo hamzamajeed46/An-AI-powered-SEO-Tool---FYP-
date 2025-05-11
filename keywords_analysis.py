@@ -24,12 +24,16 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
         response = requests.get(url, headers=headers, params=querystring)
 
         if response.status_code != 200:
-            return {"error": f"API Error {response.status_code}: {response.text}"}
+            headers = {
+            "x-rapidapi-key": os.getenv('API_KEY3'),
+            "x-rapidapi-host": "google-keyword-insight1.p.rapidapi.com"
+            }
+
+            response = requests.get(url, headers=headers, params=querystring)
+        
 
         data = response.json()
 
-        if not isinstance(data, list):
-            return {"error": "API returned unexpected format."}
 
         suggestions = {
             "keyword": keyword,
@@ -38,7 +42,7 @@ def fetch_keyword_suggestions(keyword, search_engine="google", country="us"):
             "date": datetime.utcnow()
         }
 
-        keywords_collection.insert_one(suggestions)
+        
         return suggestions
 
     except Exception as e:
@@ -86,6 +90,15 @@ def generate_image_from_keyword(keyword):
         }
 
         response = requests.post(url, json=payload, headers=headers)
+        if response.status_code != 200:
+            headers = {
+            "x-rapidapi-key": os.getenv('API_KEY'),
+            "x-rapidapi-host": "ai-text-to-image-generator-flux-free-api.p.rapidapi.com",
+            "Content-Type": "application/json"
+            }
+
+            response = requests.get(url, json=payload, headers=headers)
+            
         response = response.json()
 
 
